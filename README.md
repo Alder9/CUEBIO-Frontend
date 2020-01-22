@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Leaflet
 
-Make sure leaflet is installed with `ng install leaflet`.
+Make sure leaflet is installed with `npm install leaflet`. Or install or requirements with npm.
 
 ## Development server
 
