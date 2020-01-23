@@ -2,9 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
 
-## Leaflet
+## Install node-modules
 
-Make sure leaflet is installed with `npm install leaflet`. Or install or requirements with npm.
+Run `npm install` to install the requires node-modules.
 
 ## Development server
 

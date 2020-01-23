@@ -1,15 +1,12 @@
-::ng-deep .info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    width: 500px;
-    height: fit-content;
+:host{
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
-div{
-    height: 1000px;
+#map {
+    flex-grow: 1;
+    order: 1;
+    height: 100%;
     width: 100%;
 }

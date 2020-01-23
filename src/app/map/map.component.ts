@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { Apple } from '../apple';
 
 @Component({
   selector: 'app-map',
@@ -46,49 +47,8 @@ export class MapComponent implements OnInit {
 
   }
 
-  // private addInfoPanel(): void {
-  //   var info = L.control();
-
-  //   info.onAdd = function (map) {
-  //     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-  //     // this._div.onmousedown = function(evt) {evt.stopPropagation();}
-  //     this._containerTitleBar = L.DomUtil.create('div', 'titlebar', this._div);
-  //     this._closeButton = L.DomUtil.create('a', 'close', this._containerTitleBar);
-
-  //     var stop = L.DomEvent.stopPropagation;
-  //     L.DomEvent
-  //         .on(this._div, 'contextmenu', stop)
-  //         .on(this._div, 'click', stop)
-  //         .on(this._div, 'mousedown', stop)
-  //         .on(this._div, 'touchstart', stop)
-  //         .on(this._div, 'dblclick', stop)
-  //         .on(this._div, 'mousewheel', stop)
-  //         .on(this._div, 'MozMousePixelScroll', stop)
-
-  //     var close = this._closeButton;
-  //     L.DomEvent.on(close, 'click', this.hide, stop);
-
-  //     this.update();
-  //     return this._div;
-  //   };
-
-  //   info.hide = function(e) {
-  //     L.DomUtil.removeClass(this._wrapper, 'visible');
-  //     this.fire('hide');
-  //     return this;
-  //   }
-  
-  //   // method that we will use to update the control based on feature properties passed
-  //   info.update = function (props) {
-  //       this._div.innerHTML = '<h4>Apple Information Here</h4>' + 'Apple info.';  
-  //   };
-  
-  //   info.addTo(this.map);
-  // }
-
   ngOnInit() {
     this.initMap();
-    // this.addInfoPanel();
   }
 
 }
