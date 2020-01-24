@@ -3,7 +3,6 @@ export class Apple {
     genetics: string;
     species: string;
     finalCultivar: string;
-    synonym: string;
     treeLatitude: number;
     treeLongitude: number;
 }

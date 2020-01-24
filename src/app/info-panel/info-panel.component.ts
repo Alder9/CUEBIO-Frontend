@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Apple } from '../apple';
+import { InfoPanelService } from '../info-panel.service';
 
 @Component({
   selector: 'app-info-panel',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InfoPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(public infoPanelService: InfoPanelService) { }
 
   ngOnInit() {
   }

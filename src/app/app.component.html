@@ -7,7 +7,7 @@ integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqD
 crossorigin=""></script>
 <div id="container">
     <app-map></app-map>
-    <div *ngIf="show" id="infoPanelBox">
+    <div *ngIf="infoPanelService.show" id="infoPanelBox">
         <app-info-panel></app-info-panel>
     </div>
 </div>
