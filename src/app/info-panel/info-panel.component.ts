@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
+import { trigger, state, transition, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-info-panel',
@@ -8,6 +9,10 @@ import { InfoPanelService } from '../info-panel.service';
   styleUrls: ['./info-panel.component.css']
 })
 export class InfoPanelComponent implements OnInit {
+
+  onClose() {
+    this.infoPanelService.hidePanel();
+  }
 
   constructor(public infoPanelService: InfoPanelService) { }
 

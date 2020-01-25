@@ -2,3 +2,19 @@ html,
 body {
     margin: 10em;
 }
+
+.infoPanel {
+    font-family: Rokkitt;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 25px;
+}
+
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    right: 0.5%;
+    font-size: larger;
+}

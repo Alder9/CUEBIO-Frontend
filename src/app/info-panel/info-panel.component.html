@@ -1,6 +1,5 @@
-<div>
-    
-    <h2>Apple</h2>
+<div class="infoPanel"> 
+    <span class="close" (click)="onClose()">&times;</span>
     <!-- <p>{{ apple.id }}</p> -->
     <div *ngIf="infoPanelService.apple">
         <p><b>Tree Tag ID:</b> {{ infoPanelService.apple.id }}</p>
