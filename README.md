@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Alder9/CUEBIO-Frontend.svg?branch=master)](https://travis-ci.com/Alder9/CUEBIO-Frontend)
+
 # CUEBIOFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
