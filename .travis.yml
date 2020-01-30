@@ -3,11 +3,7 @@ sudo: required
 
 language: node_js
 node_js:
-  - '13.7'
-  - '12.14.1'
-  - '12.1'
-  - '9'
-  - '8'
+  - '10'
 
 addons:
   chrome: stable
