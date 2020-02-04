@@ -2,9 +2,48 @@
     <span class="close" (click)="onClose()">&times;</span>
     <!-- <p>{{ apple.id }}</p> -->
     <div *ngIf="infoPanelService.apple">
-        <p><b>Tree Tag ID:</b> {{ infoPanelService.apple.id }}</p>
-        <p><b>Genetics:</b> {{ infoPanelService.apple.genetics }}</p>
-        <p><b>Species:</b> {{ infoPanelService.apple.species }}</p>
-        <p><b>Final Cultivar:</b> {{ infoPanelService.apple.finalCultivar }}</p>
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0595.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0596.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0597.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0599.jpg">
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="info">
+            <p><b>Tree Tag ID:</b> {{ infoPanelService.apple.id }}</p>
+            <p><b>Genetics:</b> {{ infoPanelService.apple.genetics }}</p>
+            <p><b>Species:</b> {{ infoPanelService.apple.species }}</p>
+            <p><b>Final Cultivar:</b> {{ infoPanelService.apple.finalCultivar }}</p>
+            <p><b>Synonym:</b> {{ infoPanelService.apple.synonym }}</p>
+            <p><b>Confirmed:</b> {{ getIsConfirmed() }}</p>
+            <p><b>Use:</b> {{ infoPanelService.apple.use }}</p>
+            <p><b>Country:</b> {{ infoPanelService.apple.country }}</p>
+            <p><b>Genotypes:</b> {{ getGenotypes() }}</p>
+            <p><b>Property Owner:</b> {{ infoPanelService.apple.propertyOwner }}</p>
+            <p><b>Tree Height:</b> {{ getTreeHeight() }}</p>
+            <p><b>Trip Dripline:</b> {{ getTreeDripline() }}</p>
+            <p><b>Trunk Diameter:</b> {{ getTrunkDiameter() }}</p>
+            <p><b>Fire Blight:</b> {{ getFireBlight() }}</p>
+            <p><b>Fruit Hanging:</b> {{ infoPanelService.apple.fruitHanging }}</p>
+        </div>
     </div>
 </div>
