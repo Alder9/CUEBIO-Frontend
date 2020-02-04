@@ -9,7 +9,10 @@ import { APPLES } from './mock-apples';
 })
 export class AppleService {
 
+  // APPLES: Apple[] = [];
+
   getApples(): Observable<Apple[]> {
+
     return of(APPLES);
   }
 

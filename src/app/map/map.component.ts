@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
@@ -44,6 +44,10 @@ export class MapComponent implements OnInit {
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { }
 
+  getRandomAdjustment(): number {
+    return Math.random() * (0.001 - 0.0005) + 0.0005;
+  }
+
   getApples(): void {
     this.appleService.getApples()
         .subscribe(apples => this.apples = apples);
@@ -73,18 +77,29 @@ export class MapComponent implements OnInit {
     this.apples.forEach(function (a) {
       console.log(a.id);
       var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-      am.setApple(a);
-      am.on('click', function() {
-        // console.log(am.getApple().id);
-        this.infoPanelService.add(am.getApple());
-        this.infoPanelService.showPanel();
-        this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude]);
-      }, this);
-      this.markers.push(am);
+      // Check to see if the lat/long are valid
+      if(a.treeLatitude != -1 && a.treeLongitude != -1) {
+        if(a.propertyOwner == "private") {
+          // Adjust the lat/long a little
+          console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+          a.treeLatitude += this.getRandomAdjustment();
+          a.treeLongitude += this.getRandomAdjustment();
+          console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+
+        }
+
+        am.setApple(a);
+        am.on('click', function() {
+          // console.log(am.getApple().id);
+          this.infoPanelService.add(am.getApple());
+          this.infoPanelService.showPanel();
+          this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
+        }, this);
+        this.markers.push(am);
+      }
     }, this);
 
     L.featureGroup(this.markers)
-      .bindPopup('Apple!')
       .addTo(this.map);
 
   }
