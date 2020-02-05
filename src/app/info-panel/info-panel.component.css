@@ -3,10 +3,17 @@ body {
     margin: 10em;
 }
 
+img {
+    -webkit-transform:rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
 div.gallery img {
-    width: 100%;
+    width: 125%;
     height: auto;
-    rotate: 90deg;
 }
 
 div.desc {
@@ -31,9 +38,9 @@ div.desc {
 }
 
 .responsive {
-    padding: 0px 1px;
+    padding: 20px 0px;
     float: left;
-    width: 45%;
+    width: 48%;
 }
 
 .clearfix:after {
