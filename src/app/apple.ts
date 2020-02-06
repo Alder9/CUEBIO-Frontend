@@ -18,4 +18,13 @@ export class Apple {
     trunkDiameter: number;
     fireBlight: number;
     fruitHanging: string;
+
+    // getGenotypes() {
+    //     if(this.genotypes == -1) {
+    //         return "N/A";
+    //     }
+    //     else {
+    //         return this.genotypes;
+    //     }
+    // }
 }

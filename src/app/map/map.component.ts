@@ -15,9 +15,10 @@ import { appleMarker } from '../apple-marker';
 
 export class MapComponent implements OnInit {
   appleIcon = L.icon({
-    iconUrl: '../assets/apple-alt-solid.svg',
+    // iconUrl: '../assets/apple-alt-solid.svg',
+    iconUrl: '../assets/icons8-apple-48.png',
 
-    iconSize: [20,20]
+    iconSize: [25,25]
   });
 
   AppleMarker = L.Marker.extend({
