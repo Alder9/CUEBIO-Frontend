@@ -29,11 +29,11 @@ export class MapComponent implements OnInit {
 
     apple: {},
 
-    setApple: function(apple: AppleService) {
+    setApple: function(apple: Apple) {
         this.apple = apple;
     },
 
-    getApple: function(): AppleService {
+    getApple: function(): Apple{
         return this.apple;
     }
 
@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
 
   getApples(): void {
     this.appleService.getApples()
-        .subscribe(data => this.apples = data);
+        .subscribe(apples => this.apples = apples);
   }
   
   private initMap(): void {

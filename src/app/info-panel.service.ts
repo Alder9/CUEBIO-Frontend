@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Apple } from './apple';
-import { AppleService } from './apple.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class InfoPanelService {
 
   show: boolean = false;
 
-  apple: AppleService;
+  apple: Apple;
 
   showPanel() {
     this.show = true;
@@ -20,7 +20,7 @@ export class InfoPanelService {
     this.show = false;
   }
 
-  add(apple: AppleService) {
+  add(apple: Apple) {
     this.apple = apple;
   }
 

@@ -1,7 +1,7 @@
 from django.db import models
 
 class Apple(models.Model):
-
+    id = models.AutoField(primary_key=True)
     genetics = models.CharField(max_length=32)
     species = models.CharField(max_length=32)
     finalCultivar = models.CharField(max_length=32)

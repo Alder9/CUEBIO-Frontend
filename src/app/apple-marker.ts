@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import { Apple } from './apple';
-import { AppleService } from './apple.service';
+
 
 var appleIcon = L.icon({
     iconUrl: '../assets/apple-alt-solid.svg',
@@ -16,17 +16,17 @@ var AppleMarker = L.Marker.extend({
 
     apple: {},
 
-    setApple: function(apple: AppleService) {
+    setApple: function(apple: Apple) {
         this.apple = apple;
     },
 
-    getApple: function(): AppleService {
+    getApple: function(): Apple {
         return this.apple;
     }
 
 });
 
-export function appleMarker(latlng: L.latLng, apple: AppleService, options) {
+export function appleMarker(latlng: L.latLng, apple: Apple, options) {
     var am = new AppleMarker(latlng, options);
     am.setApple(apple);
 

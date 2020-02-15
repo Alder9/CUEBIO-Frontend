@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Apple } from './apple';
 import { APPLES } from './mock-apples';
@@ -19,9 +20,9 @@ export class AppleService {
 
   getApples(): Observable<any> {
 
-    return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
+    return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders}).pipe(
+    map((data:any) => { return new Apple })
+  );
   }
-
-  
+ 
 }
-
