@@ -29,11 +29,11 @@ export class MapComponent implements OnInit {
 
     apple: {},
 
-    setApple: function(apple: Apple) {
+    setApple: function(apple: AppleService) {
         this.apple = apple;
     },
 
-    getApple: function(): Apple {
+    getApple: function(): AppleService {
         return this.apple;
     }
 
@@ -43,7 +43,9 @@ export class MapComponent implements OnInit {
   apples: Apple[];
   markers: L.marker[];
 
-  constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { }
+  constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
+      this.getApples();
+  }
 
   getRandomAdjustment(): number {
     return Math.random() * (0.001 - 0.0005) + 0.0005;
@@ -51,7 +53,7 @@ export class MapComponent implements OnInit {
 
   getApples(): void {
     this.appleService.getApples()
-        .subscribe(apples => this.apples = apples);
+        .subscribe(data => this.apples = data);
   }
   
   private initMap(): void {
