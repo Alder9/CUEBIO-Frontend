@@ -11,7 +11,7 @@ import { APPLES } from './mock-apples';
 })
 export class AppleService {
 
-  // APPLES: Apple[] = [];
+  apples : Apple[];
 
   baseurl = "http://127.0.0.1:8000";
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -21,8 +21,9 @@ export class AppleService {
   getApples(): Observable<any> {
 
     return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders}).pipe(
-    map((data:any) => { return new Apple })
-  );
-  }
+    map((data:any) => { 
+      console.log(data);
+      this.apples = data})
+  )}
  
 }

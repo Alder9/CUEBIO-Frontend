@@ -53,7 +53,12 @@ export class MapComponent implements OnInit {
 
   getApples(): void {
     this.appleService.getApples()
-        .subscribe(apples => this.apples = apples);
+        .subscribe(apples => { this.apples = apples;
+          console.log(apples)
+        },
+        (error) => {
+          console.log(error);
+        });
   }
   
   private initMap(): void {

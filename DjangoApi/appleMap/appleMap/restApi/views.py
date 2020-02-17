@@ -12,5 +12,5 @@ class AppleViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         apples= Apple.objects.all()
-        serializer = AppleMiniSerializer(apples, many=True)
+        serializer = AppleSerializer(apples, many=True)
         return Response(serializer.data)
