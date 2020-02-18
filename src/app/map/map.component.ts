@@ -40,11 +40,10 @@ export class MapComponent implements OnInit {
   });
 
   private map: L.map;
-  apples: Apple[];
+  apples: Apple[] = [];
   markers: L.marker[];
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-      this.getApples();
   }
 
   getRandomAdjustment(): number {
@@ -53,10 +52,11 @@ export class MapComponent implements OnInit {
 
   getApples(): void {
     this.appleService.getApples()
-        .subscribe(apples => { this.apples = apples;
-          console.log(apples)
+        .subscribe(data => {
+          this.apples = data;
+          console.log(this.apples);
         },
-        (error) => {
+        error => {
           console.log(error);
         });
   }
@@ -79,37 +79,41 @@ export class MapComponent implements OnInit {
       attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
     }).addTo(this.map)
 
-    // Apple Markers
-    this.getApples();
+    // Apple Marker
+    // this.getApples();
 
-    this.apples.forEach(function (a) {
-      console.log(a.id);
-      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-      // Check to see if the lat/long are valid
-      if(a.treeLatitude != -1 && a.treeLongitude != -1) {
-        if(a.propertyOwner == "private") {
-          // Adjust the lat/long a little
-          console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-          a.treeLatitude += this.getRandomAdjustment();
-          a.treeLongitude += this.getRandomAdjustment();
-          console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-
-        }
-
-        am.setApple(a);
-        am.on('click', function() {
-          // console.log(am.getApple().id);
-          this.infoPanelService.add(am.getApple());
-          this.infoPanelService.showPanel();
-          this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
+    // Create Markers
+    this.appleService.getApples()
+      .subscribe(apples => {
+        apples.forEach(function(a) {
+          console.log(a);
+          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+          if(a.treeLatitude != -1 && a.treeLongitude != -1) {
+            if(a.propertyOwner == "private") {
+              // Adjust the lat/long a little
+              console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+              a.treeLatitude += this.getRandomAdjustment();
+              a.treeLongitude += this.getRandomAdjustment();
+              console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+            }
+    
+            am.setApple(a);
+            am.on('click', function() {
+              // console.log(am.getApple().id);
+              this.infoPanelService.add(am.getApple());
+              this.infoPanelService.showPanel();
+              this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
+            }, this);
+            this.markers.push(am);
+            console.log(this.markers);
+          }
         }, this);
-        this.markers.push(am);
-      }
-    }, this);
 
-    L.featureGroup(this.markers)
-      .addTo(this.map);
-
+        L.featureGroup(this.markers)
+          .addTo(this.map);
+      });
+    
+    
   }
 
   ngOnInit() {
