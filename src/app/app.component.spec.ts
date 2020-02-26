@@ -40,4 +40,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  it('should create show boolean to be true', () => {
+    expect(component.show).toEqual(true);
+  });
+
+
 });

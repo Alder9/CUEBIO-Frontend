@@ -68,6 +68,10 @@ export class InfoPanelComponent implements OnInit {
     }
   }
 
+  add(apple : Apple) {
+    this.infoPanelService.add(apple);
+  }
+
   constructor(public infoPanelService: InfoPanelService) { }
 
   ngOnInit() {

@@ -46,6 +46,10 @@ export class MapComponent implements OnInit {
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
   }
 
+  getMap() {
+    return this.map;
+  }
+
   getRandomAdjustment(): number {
     return Math.random() * (0.001 - 0.0005) + 0.0005;
   }

@@ -22,6 +22,7 @@ export class InfoPanelService {
 
   add(apple: Apple) {
     this.apple = apple;
+    console.log(this.apple);
   }
 
   constructor() { }

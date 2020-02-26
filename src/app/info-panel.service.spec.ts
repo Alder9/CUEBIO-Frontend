@@ -4,6 +4,8 @@ import { InfoPanelService } from './info-panel.service';
 import { Apple } from './apple';
 
 describe('InfoPanelService', () => {
+ 
+  let apple : Apple;
 
 
   beforeEach(() => { 
@@ -18,7 +20,7 @@ describe('InfoPanelService', () => {
     
   });
 
-  
+
   it('show should be false', () => {
     const service: InfoPanelService = TestBed.get(InfoPanelService);
     expect(service.show).toBeFalsy();
@@ -28,6 +30,22 @@ describe('InfoPanelService', () => {
   it('showPanel should be true', () => {
     const service: InfoPanelService = TestBed.get(InfoPanelService);
     expect(service.showPanel).toBeTruthy();
+    
+  });
+
+  it('should have add function', () => {
+    const service: InfoPanelService = TestBed.get(InfoPanelService);
+    expect(service.add).toBeTruthy();
+    
+  });
+
+
+  it('apple should actual apple', () => {
+    const service: InfoPanelService = TestBed.get(InfoPanelService);
+    service.add(apple);
+    expect(service.apple).actual;
+    expect(service.apple).toBe(apple);
+
     
   });
 
