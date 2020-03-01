@@ -17,4 +17,5 @@ export class AppleService {
   }
 
   constructor() { }
-}
+};
+
