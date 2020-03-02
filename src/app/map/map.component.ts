@@ -1,5 +1,6 @@
 import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
 import { AppleService } from '../apple.service';
@@ -94,15 +95,32 @@ export class MapComponent implements OnInit {
           // console.log(am.getApple().id);
           this.infoPanelService.add(am.getApple());
           this.infoPanelService.showPanel();
-          this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
+          this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude],  16, {padding: [10,10]});
         }, this);
         this.markers.push(am);
       }
     }, this);
 
-    L.featureGroup(this.markers)
-      .addTo(this.map);
+    var treeIcon = L.icon({
+      iconUrl: '../assets/icons8-color-48.png',
 
+      iconSize: [40,40]
+    });
+    L.DomUtil.TRANSITION = true;
+    var clusterMarkers = L.markerClusterGroup({
+      // maxClusterRadius: 100,
+      disableClusteringAtZoom: 17,
+
+      iconCreateFunction: function(cluster) {
+        return treeIcon;
+      }
+    });
+    clusterMarkers.addLayers(this.markers);
+
+    // L.featureGroup(this.markers)
+    //   .addTo(this.map);
+
+    this.map.addLayer(clusterMarkers);
   }
 
   ngOnInit() {
