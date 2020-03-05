@@ -91,9 +91,9 @@ export class MapComponent implements OnInit {
       .subscribe(apples => {
         apples.forEach(function(a) {
           console.log(a);
-          
-          // var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          var am = new this.AppleMarker([a[11], a[12]], {});
+          console.log(typeof(parseInt(a["treeLatitude"])))
+          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+          // var am = new this.AppleMarker([a[11], a[12]], {});
           if(a.treeLatitude != -1 && a.treeLongitude != -1) {
             if(a.propertyOwner == "private") {
               // Adjust the lat/long a little
@@ -111,7 +111,7 @@ export class MapComponent implements OnInit {
               this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
             }, this);
             this.markers.push(am);
-            console.log(this.markers);
+            // console.log(this.markers);
           }
         }, this);
 

@@ -1,5 +1,6 @@
 export class Apple {
-    id: number;
+    // id: number;
+    tree_tag_id: number;
     genetics: string;
     species: string;
     finalCultivar: string;
