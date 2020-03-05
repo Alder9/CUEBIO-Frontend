@@ -10,7 +10,7 @@ addons:
 
 cache:
   directories:
-    - ./node_modules
+    - ./frontend/node_modules
 
 install:
   - cd frontend
@@ -19,6 +19,6 @@ install:
 
 script:
   - cd backend
-  - node server.js
+  - node server.js &
   - cd ../frontend
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
