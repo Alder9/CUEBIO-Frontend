@@ -29,21 +29,21 @@
         <div class="clearfix"></div>
 
         <div class="info">
-            <p><b>Tree Tag ID:</b> {{ infoPanelService.apple.id }}</p>
-            <p><b>Genetics:</b> {{ infoPanelService.apple.genetics }}</p>
-            <p><b>Species:</b> {{ infoPanelService.apple.species }}</p>
-            <p><b>Final Cultivar:</b> {{ infoPanelService.apple.finalCultivar }}</p>
-            <p><b>Synonym:</b> {{ infoPanelService.apple.synonym }}</p>
+            <p><b>Tree Tag ID:</b> {{ getTreeTagId() }}</p>
+            <p><b>Genetics:</b> {{ getGenetics() }}</p>
+            <p><b>Species:</b> {{ getSpecies() }}</p>
+            <p><b>Final Cultivar:</b> {{ getFinalCultivar() }}</p>
+            <p><b>Synonym:</b> {{ getSynonym() }}</p>
             <p><b>Confirmed:</b> {{ getIsConfirmed() }}</p>
-            <p><b>Use:</b> {{ infoPanelService.apple.use }}</p>
-            <p><b>Country:</b> {{ infoPanelService.apple.country }}</p>
+            <p><b>Use:</b> {{ getUse() }}</p>
+            <p><b>Country:</b> {{ getCountry() }}</p>
             <p><b>Genotypes:</b> {{ getGenotypes() }}</p>
-            <p><b>Property Owner:</b> {{ infoPanelService.apple.propertyOwner }}</p>
+            <!-- <p><b>Property Owner:</b> {{ infoPanelService.apple.propertyOwner }}</p> -->
             <p><b>Tree Height:</b> {{ getTreeHeight() }}</p>
             <p><b>Trip Dripline:</b> {{ getTreeDripline() }}</p>
             <p><b>Trunk Diameter:</b> {{ getTrunkDiameter() }}</p>
             <p><b>Fire Blight:</b> {{ getFireBlight() }}</p>
-            <p><b>Fruit Hanging:</b> {{ infoPanelService.apple.fruitHanging }}</p>
+            <p><b>Fruit Hanging:</b> {{ getFruitHanging() }}</p>
         </div>
     </div>
 </div>
