@@ -15,6 +15,7 @@ cache:
 install:
   - cd frontend
   - npm install
+  - cd ..
 
 script:
   - cd backend
