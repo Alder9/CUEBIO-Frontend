@@ -1,5 +1,5 @@
 export class Apple {
-    // id: number;
+
     tree_tag_id: number;
     genetics: string;
     species: string;

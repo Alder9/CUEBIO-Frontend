@@ -90,18 +90,18 @@ export class MapComponent implements OnInit {
     this.appleService.getApples()
       .subscribe(apples => {
         apples.forEach(function(a) {
-          console.log(a);
-          console.log(typeof(parseInt(a["treeLatitude"])))
+
           var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
           // var am = new this.AppleMarker([a[11], a[12]], {});
-          if(a.treeLatitude != -1 && a.treeLongitude != -1) {
-            if(a.propertyOwner == "private") {
-              // Adjust the lat/long a little
-              console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-              a.treeLatitude += this.getRandomAdjustment();
-              a.treeLongitude += this.getRandomAdjustment();
-              console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-            }
+          if(a.treeLatitude != null && a.treeLongitude != null) {
+            // if(a.propertyOwner == "private") {
+            //   // Adjust the lat/long a little
+            //   console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+            //   a.treeLatitude += this.getRandomAdjustment();
+            //   a.treeLongitude += this.getRandomAdjustment();
+            //   console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
+            // }
+
     
             am.setApple(a);
             am.on('click', function() {

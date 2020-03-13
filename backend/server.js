@@ -21,8 +21,6 @@ app.get('/beta/query1', (req, res) => {
       }
       
         res.json(JSON.parse(body));
-        
-      
     }
   )
 });

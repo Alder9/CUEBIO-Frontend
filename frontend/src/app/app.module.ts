@@ -9,12 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { InfoPanelComponent } from './info-panel/info-panel.component';
+import { FiterComponent } from './fiter/fiter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    InfoPanelComponent
+    InfoPanelComponent,
+    FiterComponent
   ],
   imports: [
     BrowserModule,
