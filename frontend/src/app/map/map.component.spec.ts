@@ -14,7 +14,7 @@ describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
   
-  let apple : Apple[] = [{  "id": 100,
+  let apple : Apple[] = [{  "tree_tag_id": 100,
       "genetics": "Malus",
       "species": "domestica",
       "finalCultivar": "Ben Davis",

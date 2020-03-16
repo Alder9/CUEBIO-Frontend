@@ -10,7 +10,7 @@ describe('AppleService', () => {
 
   let service: AppleService;
     
-  let apple : Apple[] = [{  "id": 100,
+  let apple : Apple[] = [{  "tree_tag_id": 100,
       "genetics": "Malus",
       "species": "domestica",
       "finalCultivar": "Ben Davis",
