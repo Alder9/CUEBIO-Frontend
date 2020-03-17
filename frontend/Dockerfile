@@ -1,7 +1,7 @@
-FROM node:12.2.0 as build
+### Build stage ###
 
-ENV PATH /node_modules/.bin:$PATH
-
+FROM node:12.7-alpine as build
+WORKDIR /usr/src/app
 COPY package.json ./
 RUN npm install
 RUN npm install -g @angular/cli
