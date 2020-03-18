@@ -12,8 +12,12 @@ RUN ng build --output-path=dist
 
 FROM nginx:1.16.0-alpine
 
-COPY --from=build /dist /usr/share/nginx/html
+RUN rm -rf /usr/share/nginx/html*
 
-EXPOSE 80
+COPY ./dev/nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=build /usr/src/app/dist/CUEBIO-Frontend /usr/share/nginx/html
+
+# EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
