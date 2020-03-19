@@ -20,7 +20,7 @@ export class AppleService {
   getApples(): Observable<any> {
 
     // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
-    return this.http.get('http://localhost:3000/beta/query1');
+    return this.http.get('http://backend:3000/beta/query1');
     
   }
  
