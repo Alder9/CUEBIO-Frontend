@@ -5,3 +5,11 @@ services:
     build: './frontend'
     ports:
       - "80:80"
+  apple-middleware:
+    container_name: apple-node
+    build: './backend'
+    volumes:
+      - .:/usr/app/server
+      - /usr/app/server/node_modules
+    ports:
+      - "3000:3000"
