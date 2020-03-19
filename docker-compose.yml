@@ -5,8 +5,6 @@ services:
     build: './frontend'
     ports:
       - "80:80"
-    networks:
-      - app-network
   apple-middleware:
     container_name: apple-node
     build: './backend'
@@ -15,12 +13,4 @@ services:
       - /usr/app/server/node_modules
     ports:
       - "3000:3000"
-    networks:
-      app-network:
-        aliases:
-          - backend
-
-networks:
-  app-network:
-    driver: bridge
 
