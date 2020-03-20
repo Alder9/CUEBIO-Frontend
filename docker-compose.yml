@@ -3,13 +3,15 @@ services:
   apple-map-app:
     container_name: apple-map-app
     build: './frontend'
+    volumes:
+      - /usr/src/app/node_modules
     ports:
       - "80:80"
+      - "49153:49153"   
   apple-middleware:
-    container_name: apple-node
+    container_name: apple-middleware
     build: './backend'
     volumes:
-      - .:/usr/app/server
       - /usr/app/server/node_modules
     ports:
       - "3000:3000"
