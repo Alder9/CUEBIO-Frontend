@@ -88,7 +88,7 @@ export class MapComponent implements OnInit {
     this.getApples();
 
     this.apples.forEach(function (a) {
-      console.log(a.id);
+      console.log(a.tree_tag_id);
       var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
       // Check to see if the lat/long are valid
       if(a.treeLatitude != -1 && a.treeLongitude != -1) {
