@@ -85,32 +85,6 @@ export class MapComponent implements OnInit {
     }).addTo(this.map)
 
     // Apple Markers
-    this.getApples();
-
-    this.apples.forEach(function (a) {
-      console.log(a.tree_tag_id);
-      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-      // Check to see if the lat/long are valid
-      if(a.treeLatitude != -1 && a.treeLongitude != -1) {
-        if(a.propertyOwner == "private") {
-          // Adjust the lat/long a little
-          console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-          a.treeLatitude += this.getRandomAdjustment();
-          a.treeLongitude += this.getRandomAdjustment();
-          console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-
-        }
-
-        am.setApple(a);
-        am.on('click', function() {
-          // console.log(am.getApple().id);
-          this.infoPanelService.add(am.getApple());
-          this.infoPanelService.showPanel();
-          this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude],  16, {padding: [10,10]});
-        }, this);
-        this.markers.push(am);
-      }
-    }, this);
 
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
@@ -119,19 +93,49 @@ export class MapComponent implements OnInit {
     });
     L.DomUtil.TRANSITION = true;
     var clusterMarkers = L.markerClusterGroup({
-      // maxClusterRadius: 100,
+      maxClusterRadius: 20,
+      // zoomToBoundsOnClick: false,
+      spiderfyOnMaxZoom: false,
       disableClusteringAtZoom: 17,
 
       iconCreateFunction: function(cluster) {
         return treeIcon;
       }
     });
-    clusterMarkers.addLayers(this.markers);
 
-    // L.featureGroup(this.markers)
-    //   .addTo(this.map);
+    this.appleService.getApples()
+      .subscribe(apples => {
+        apples.forEach(function(a) {
+          // console.log(a);
+          // var apple = new Apple(a);
+          
+          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+          if(a.treeLatitude != null && a.treeLongitude != null) {
+    
+            am.setApple(a);
+            am.on('click', function() {
+              // console.log(am.getApple().id);
+              this.infoPanelService.add(am.getApple());
+              this.infoPanelService.showPanel();
+              // console.log(this.map.getZoom());
+              var zoom = this.map.getZoom();
+              if(zoom < this.map.getMaxZoom()) {
+                zoom += 1;
+              }
+              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+            }, this);
+            this.markers.push(am);
+            // console.log(this.markers);
+          }
+        }, this);
 
-    this.map.addLayer(clusterMarkers);
+    
+      clusterMarkers.addLayers(this.markers);
+      // console.log(this.markers);
+      // L.featureGroup(this.markers)
+        // .addTo(this.map);
+      this.map.addLayer(clusterMarkers);
+      });
   }
 
   ngOnInit() {
