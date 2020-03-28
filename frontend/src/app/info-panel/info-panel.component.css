@@ -1,0 +1,50 @@
+html,
+body {
+    margin: 10em;
+}
+
+img {
+    -webkit-transform:rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+div.gallery img {
+    width: 125%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+.infoPanel {
+    font-family: Rokkitt;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 25px;
+}
+
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    right: 2%;
+    font-size: larger;
+}
+
+.responsive {
+    padding: 20px 0px;
+    float: left;
+    width: 48%;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}

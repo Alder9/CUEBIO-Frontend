@@ -1,0 +1,49 @@
+<div class="infoPanel"> 
+    <span class="close" (click)="onClose()">&times;</span>
+    <!-- <p>{{ apple.id }}</p> -->
+    <div *ngIf="infoPanelService.apple">
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0595.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0596.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0597.jpg">
+            </div>
+        </div>
+
+        <div class="responsive">
+            <div class="gallery">
+                <img src="../../assets/IMG_0599.jpg">
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="info">
+            <p><b>Tree Tag ID:</b> {{ getTreeTagId() }}</p>
+            <p><b>Genetics:</b> {{ getGenetics() }}</p>
+            <p><b>Species:</b> {{ getSpecies() }}</p>
+            <p><b>Final Cultivar:</b> {{ getFinalCultivar() }}</p>
+            <p><b>Synonym:</b> {{ getSynonym() }}</p>
+            <p><b>Confirmed:</b> {{ getIsConfirmed() }}</p>
+            <p><b>Use:</b> {{ getUse() }}</p>
+            <p><b>Country:</b> {{ getCountry() }}</p>
+            <p><b>Genotypes:</b> {{ getGenotypes() }}</p>
+            <!-- <p><b>Property Owner:</b> {{ infoPanelService.apple.propertyOwner }}</p> -->
+            <p><b>Tree Height:</b> {{ getTreeHeight() }}</p>
+            <p><b>Trip Dripline:</b> {{ getTreeDripline() }}</p>
+            <p><b>Trunk Diameter:</b> {{ getTrunkDiameter() }}</p>
+            <p><b>Fire Blight:</b> {{ getFireBlight() }}</p>
+            <p><b>Fruit Hanging:</b> {{ getFruitHanging() }}</p>
+        </div>
+    </div>
+</div>
