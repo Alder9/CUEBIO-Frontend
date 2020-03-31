@@ -21,7 +21,6 @@ export class AppleService {
 
     // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
     return this.http.get('http://localhost:3000/beta/query1'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
-    
   }
  
 }

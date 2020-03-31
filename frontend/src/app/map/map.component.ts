@@ -1,5 +1,6 @@
 import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
 import { AppleService } from '../apple.service';
@@ -83,10 +84,25 @@ export class MapComponent implements OnInit {
       attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
     }).addTo(this.map)
 
-    // Apple Marker
-    // this.getApples();
+    // Apple Markers
 
-    // Create Markers
+    var treeIcon = L.icon({
+      iconUrl: '../assets/icons8-color-48.png',
+
+      iconSize: [40,40]
+    });
+    L.DomUtil.TRANSITION = true;
+    var clusterMarkers = L.markerClusterGroup({
+      maxClusterRadius: 20,
+      // zoomToBoundsOnClick: false,
+      spiderfyOnMaxZoom: false,
+      disableClusteringAtZoom: 17,
+
+      iconCreateFunction: function(cluster) {
+        return treeIcon;
+      }
+    });
+
     this.appleService.getApples()
       .subscribe(apples => {
         apples.forEach(function(a) {
@@ -94,33 +110,32 @@ export class MapComponent implements OnInit {
           // var apple = new Apple(a);
           
           var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          // var am = new this.AppleMarker([a[11], a[12]], {});
           if(a.treeLatitude != null && a.treeLongitude != null) {
-            // if(a.propertyOwner == "private") {
-            //   // Adjust the lat/long a little
-            //   console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-            //   a.treeLatitude += this.getRandomAdjustment();
-            //   a.treeLongitude += this.getRandomAdjustment();
-            //   console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-            // }
     
             am.setApple(a);
             am.on('click', function() {
               // console.log(am.getApple().id);
               this.infoPanelService.add(am.getApple());
               this.infoPanelService.showPanel();
-              this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
+              // console.log(this.map.getZoom());
+              var zoom = this.map.getZoom();
+              if(zoom < this.map.getMaxZoom()) {
+                zoom += 1;
+              }
+              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
             }, this);
             this.markers.push(am);
             // console.log(this.markers);
           }
         }, this);
 
-        L.featureGroup(this.markers)
-          .addTo(this.map);
+    
+      clusterMarkers.addLayers(this.markers);
+      // console.log(this.markers);
+      // L.featureGroup(this.markers)
+        // .addTo(this.map);
+      this.map.addLayer(clusterMarkers);
       });
-    
-    
   }
 
   ngOnInit() {
