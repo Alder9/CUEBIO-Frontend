@@ -94,15 +94,7 @@ export class MapComponent implements OnInit {
           var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
           // var am = new this.AppleMarker([a[11], a[12]], {});
           if(a.treeLatitude != null && a.treeLongitude != null) {
-            // if(a.propertyOwner == "private") {
-            //   // Adjust the lat/long a little
-            //   console.log("old tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-            //   a.treeLatitude += this.getRandomAdjustment();
-            //   a.treeLongitude += this.getRandomAdjustment();
-            //   console.log("new tree lat long: " + a.treeLatitude + "," + a.treeLongitude);
-            // }
 
-    
             am.setApple(a);
             am.on('click', function() {
               // console.log(am.getApple().id);
