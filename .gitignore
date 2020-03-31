@@ -49,3 +49,5 @@ Thumbs.db
 
 DjangoApi/venv/
 DjangoApi/env/
+
+.editorconfig
