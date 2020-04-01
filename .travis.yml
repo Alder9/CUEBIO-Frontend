@@ -19,6 +19,7 @@ install:
 
 script:
   - cd backend
+  - npm install
   - node server.js &
   - cd ../frontend
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
