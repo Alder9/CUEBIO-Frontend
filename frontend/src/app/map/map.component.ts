@@ -43,6 +43,7 @@ export class MapComponent implements OnInit {
   private map: L.map;
   apples: Apple[] = [];
   markers: L.marker[];
+  clusters: L.markercluster;
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
   }
@@ -65,32 +66,14 @@ export class MapComponent implements OnInit {
           console.log(error);
         });
   }
-  
-  private initMap(): void {
-    // Setting location to Boulder
-    this.markers = [];
-    var p1 = L.latLng(40.149152, -105.378020),
-    p2 = L.latLng(39.957245, -105.170137),
-    bounds = L.latLngBounds(p1, p2);
-    this.map = L.map('map', {
-      // maxBounds: bounds
-    }).setView([40.0150, -105.2705], 12.5);
 
-    // World Tile Layer
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    // }).addTo(map);
-    var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
-    }).addTo(this.map)
-
-    // Apple Markers
-
+  createAppleMarkers(this): L.markerClusterGroup {
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
 
       iconSize: [40,40]
     });
+
     L.DomUtil.TRANSITION = true;
     var clusterMarkers = L.markerClusterGroup({
       maxClusterRadius: 20,
@@ -134,12 +117,43 @@ export class MapComponent implements OnInit {
       // console.log(this.markers);
       // L.featureGroup(this.markers)
         // .addTo(this.map);
-      this.map.addLayer(clusterMarkers);
-      });
+    });
+
+    return clusterMarkers;
+  }
+  
+  private initMap(): void {
+    // Setting location to Boulder
+    this.markers = [];
+    var p1 = L.latLng(40.149152, -105.378020),
+    p2 = L.latLng(39.957245, -105.170137),
+    bounds = L.latLngBounds(p1, p2);
+    this.map = L.map('map', {
+      // maxBounds: bounds
+    }).setView([40.0150, -105.2705], 12.5);
+
+    // Historic map layer
+    var mapurl = '../assets/Copy of 1937 Aerial Photo_Earth Sciences.png',
+        imageBounds = [[40.052809, -105.308255], [39.973041, -105.245940]];
+
+    L.imageOverlay(mapurl, imageBounds, { opacity: 0.6 }).addTo(this.map);
+
+    // World Tile Layer
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+    var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+    }).addTo(this.map)
+
+    // Apple Markers
+    this.clusters = this.createAppleMarkers();
+    this.map.addLayer(this.clusters);
   }
 
   ngOnInit() {
     this.initMap();
   }
+
 
 }
