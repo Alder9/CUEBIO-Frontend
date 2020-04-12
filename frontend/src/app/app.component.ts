@@ -29,6 +29,5 @@ export class AppComponent {
 
   constructor(private infoPanelService: InfoPanelService) { }
 
-
 }
 

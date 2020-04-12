@@ -1,5 +1,6 @@
 import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
 import { AppleService } from '../apple.service';
@@ -42,6 +43,7 @@ export class MapComponent implements OnInit {
   private map: L.map;
   apples: Apple[] = [];
   markers: L.marker[];
+  clusters: L.markercluster;
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
   }
@@ -64,6 +66,58 @@ export class MapComponent implements OnInit {
           console.log(error);
         });
   }
+
+  createAppleMarkers(this): L.markerClusterGroup {
+    var treeIcon = L.icon({
+      iconUrl: '../assets/icons8-color-48.png',
+
+      iconSize: [40,40]
+    });
+
+    L.DomUtil.TRANSITION = true;
+    var clusterMarkers = L.markerClusterGroup({
+      maxClusterRadius: 20,
+      // zoomToBoundsOnClick: false,
+      spiderfyOnMaxZoom: false,
+      disableClusteringAtZoom: 17,
+
+      iconCreateFunction: function(cluster) {
+        return treeIcon;
+      }
+    });
+
+    this.appleService.getApples()
+      .subscribe(apples => {
+        apples.forEach(function(a) {
+
+          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+          if(a.treeLatitude != null && a.treeLongitude != null) {
+            am.setApple(a);
+            am.on('click', function() {
+              // console.log(am.getApple().id);
+              this.infoPanelService.add(am.getApple());
+              this.infoPanelService.showPanel();
+              // console.log(this.map.getZoom());
+              var zoom = this.map.getZoom();
+              if(zoom < this.map.getMaxZoom()) {
+                zoom += 1;
+              }
+              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+            }, this);
+            this.markers.push(am);
+            // console.log(this.markers);
+          }
+        }, this);
+
+    
+      clusterMarkers.addLayers(this.markers);
+      // console.log(this.markers);
+      // L.featureGroup(this.markers)
+        // .addTo(this.map);
+    });
+
+    return clusterMarkers;
+  }
   
   private initMap(): void {
     // Setting location to Boulder
@@ -71,51 +125,53 @@ export class MapComponent implements OnInit {
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);
-    this.map = L.map('map', {
-      // maxBounds: bounds
-    }).setView([40.0150, -105.2705], 12.5);
 
-    // World Tile Layer
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    // }).addTo(map);
+    // Historic map layer
+    var mapurl = '../assets/Copy of 1937 Aerial Photo_Earth Sciences.png',
+        imageBounds = [[40.052709, -105.309205], [39.973121, -105.245030]];
+
+    var historic_map = L.imageOverlay(mapurl, imageBounds, { opacity: 0.7 });
+
+    // Different world tile layers
     var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
-    }).addTo(this.map)
+    });
 
-    // Apple Marker
-    // this.getApples();
+    var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
 
-    // Create Markers
-    this.appleService.getApples()
-      .subscribe(apples => {
-        apples.forEach(function(a) {
+    var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    });
 
-          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          // var am = new this.AppleMarker([a[11], a[12]], {});
-          if(a.treeLatitude != null && a.treeLongitude != null) {
+    this.map = L.map('map', {
+      // maxBounds: bounds
+      layers: [Esri_WorldTopoMap]
+    }).setView([40.0150, -105.2705], 12.5);
 
-            am.setApple(a);
-            am.on('click', function() {
-              // console.log(am.getApple().id);
-              this.infoPanelService.add(am.getApple());
-              this.infoPanelService.showPanel();
-              this.map.flyTo([am.getApple().treeLatitude, am.getApple().treeLongitude], 16);
-            }, this);
-            this.markers.push(am);
-            // console.log(this.markers);
-          }
-        }, this);
+    // Apple Markers
+    this.clusters = this.createAppleMarkers();
+    this.map.addLayer(this.clusters);
 
-        L.featureGroup(this.markers)
-          .addTo(this.map);
-      });
-    
-    
+    var baseLayers = {
+      "Topological": Esri_WorldTopoMap,
+      "Greyscale": Stadia_AlidadeSmoothDark,
+      "Terrain": Esri_WorldImagery
+    }
+
+    var overlayMaps = {
+      "1920s Historic Map of Boulder": historic_map 
+    };
+
+    L.control.layers(baseLayers, overlayMaps).addTo(this.map);
+
   }
 
   ngOnInit() {
     this.initMap();
   }
+
 
 }

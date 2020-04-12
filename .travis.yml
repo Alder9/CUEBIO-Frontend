@@ -1,0 +1,25 @@
+dist: trusty
+sudo: required
+
+language: node_js
+node_js:
+  - '10'
+
+addons:
+  chrome: stable
+
+cache:
+  directories:
+    - ./frontend/node_modules
+
+install:
+  - cd frontend
+  - npm install
+  - cd ..
+
+script:
+  - cd backend
+  - npm install
+  - node server.js &
+  - cd ../frontend
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox

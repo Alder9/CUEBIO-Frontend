@@ -10,14 +10,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { InfoPanelComponent } from './info-panel/info-panel.component';
-import { FiterComponent } from './fiter/fiter.component';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     InfoPanelComponent,
-    FiterComponent
+    FilterComponent
  
   ],
   imports: [
