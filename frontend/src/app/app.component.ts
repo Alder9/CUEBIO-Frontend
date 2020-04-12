@@ -24,7 +24,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'CUEBIO-Frontend';
+  title = 'BATP Mapping Project';
   show: boolean = true;
 
   constructor(private infoPanelService: InfoPanelService) { }

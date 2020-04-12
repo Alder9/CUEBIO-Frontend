@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,6 @@ import { FilterComponent } from './filter/filter.component';
     MapComponent,
     InfoPanelComponent,
     FilterComponent
- 
   ],
   imports: [
     BrowserModule,
@@ -26,7 +25,8 @@ import { FilterComponent } from './filter/filter.component';
     FlexLayoutModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
