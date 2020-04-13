@@ -61,12 +61,6 @@ describe('MapComponent', () => {
     expect(component.markers).toBeTruthy();
   });
 
-
-  it('should have getApples function', () => {
-    expect(component.getApples).toBeTruthy();
-    
-   });
-
    it('should have getRandomAdjustment function', () => {
     expect(component.getRandomAdjustment).toBeTruthy();
     

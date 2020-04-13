@@ -100,10 +100,6 @@ export class FilterComponent implements OnInit {
     { name: 'Trip Dripline', attributes: ['Number Input'], queryLabel: ['DriplineMin', 'DriplineMax'] },
     { name: 'Fruit Hanging Diameter', attributes: ['Number Input'], queryLabel: ['FruitDiameterMin', 'FruitDiameterMax'] },
   ];
-  // attributes: Array<any>;
-  // changeOptions(count) {
-  //   this.attributes = this.optionsList.find(con => con.name == count).attributes;
-  // }
 
   ngOnInit() {
   }
