@@ -6,6 +6,7 @@ import { Apple } from '../apple';
 interface Option {
   name: string;
   attributes: Array<string>;
+  queryLabel: Array<String>;
 };
 
 @Component({
@@ -20,22 +21,34 @@ export class FilterComponent implements OnInit {
   apples: Apple[] = [];
   applesFilterSelected: String;
   attrFilterSelected: String;
+  operatorSelected: String;
   showNumberInput: boolean = false;
   showAttributeSelect: boolean = false;
+  showEqualTo: boolean = false;
+  showGreaterLessThanSelect: boolean = false;
 
   number = new FormControl('');
 
   /* Controls showing number input or select */
   onFilterSelected(): void{
-    console.log(this.applesFilterSelected);
     const found = this.getOption();
+
+    this.showEqualTo = false;
+    this.showNumberInput = false;
+    this.showAttributeSelect = false;
+    this.showGreaterLessThanSelect = false;
     
     if(found.attributes[0] == 'Number Input') {
-      this.showAttributeSelect = false;
       this.showNumberInput = true;
+
+      if(found.name == "Tree Tag ID") {
+        this.showEqualTo = true;
+      }
+      else {
+        this.showGreaterLessThanSelect = true;
+      }
     }
     else {
-      this.showNumberInput = false;
       this.showAttributeSelect = true;
     }
   }
@@ -55,27 +68,37 @@ export class FilterComponent implements OnInit {
   }
 
   filter(): void {
-    console.log(this.number.value);
-
-    // See if the filter selected requires number
-
-    if(this.applesFilterSelected == null || this.number.value == '') {
-      console.log("Nothing selected");
+    if(this.applesFilterSelected == null) {
+      return;
     }
-    else {
+
+    const filterOption = this.getOption();
+
+    if(this.showAttributeSelect) {
+      console.log(this.attrFilterSelected);
+      this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected)
+        .subscribe(apples => {});
+    }
+    else if(this.showNumberInput && this.number.value !== null){
       // Do the filter - successful
+      if(filterOption.name == 'Tree Tag ID') {
+        // Don't need a Min/Max suffix
+        this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+          .subscribe(apples => {});
+      }
+      else {
+        // Need a suffix
+      }
     }
   }
 
+  // TODO: Add Final Cultivar
   optionsList: Array<Option> = [
-    { name: 'Tree Tag ID', attributes: ['Number Input'] },
-    { name: 'Genetics', attributes: ['Malus'] },
-    { name: 'Specie', attributes: ['Domestica', 'Hybrid', 'X adstringens'] },
-    { name: 'Country', attributes: ['United States', 'Canada', 'Former Soviet Union', 'United Kingdom', 'Japan', 'Bahamas', 'Netherlands/UK', 'Russia', 'China'] },
-    { name: 'Genotype', attributes: ['Number Input'] },
-    { name: 'Tree Height', attributes: ['Number Input'] },
-    { name: 'Trip Dripline', attributes: ['Number Input'] },
-    { name: 'Fruit Hanging Diameter', attributes: ['Number Input'] },
+    { name: 'Tree Tag ID', attributes: ['Number Input'], queryLabel: ['TreeTagId'] },
+    { name: 'Country', attributes: ['United States', 'Canada', 'Former Soviet Union', 'United Kingdom', 'Japan', 'Bahamas', 'Netherlands/UK', 'Russia', 'China'], queryLabel: ['Country'] },
+    { name: 'Tree Height', attributes: ['Number Input'], queryLabel: ['TreeHeightMin', 'TreeHeightMax'] },
+    { name: 'Trip Dripline', attributes: ['Number Input'], queryLabel: ['DriplineMin', 'DriplineMax'] },
+    { name: 'Fruit Hanging Diameter', attributes: ['Number Input'], queryLabel: ['FruitDiameterMin', 'FruitDiameterMax'] },
   ];
   // attributes: Array<any>;
   // changeOptions(count) {

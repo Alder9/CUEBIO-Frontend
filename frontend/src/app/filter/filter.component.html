@@ -4,6 +4,11 @@
         {{p.name}}
     </option>
 </select>
+<select *ngIf='showGreaterLessThanSelect'>
+    <option>></option>
+    <option><</option>
+</select>
+<label *ngIf='showEqualTo'> = </label>
 <label *ngIf='showNumberInput'>
     <input type="number" [formControl]="number">
 </label>

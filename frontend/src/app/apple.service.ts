@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 
 
@@ -12,6 +12,9 @@ import { Observable, of } from 'rxjs';
 export class AppleService {
   messages = [];
 
+  private apples = new BehaviorSubject(null);
+  sharedApples = this.apples.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getApples(): Observable<any> {
@@ -20,9 +23,8 @@ export class AppleService {
     return this.http.get('http://localhost:3000/beta/query1'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
   }
 
-  getApplesForFilter(appleSelect:string): Observable<any> {
-    let params1 = new HttpParams().set('country', appleSelect);
-    return this.http.get('http://localhost:3000/beta/query1/country',{params:params1});
+  getFilteredApples(selectedFilter: String, value: String): Observable<any> {
+    return this.http.get('http://localhost:3000/filter/' + selectedFilter + '/value/' + value);
   }
     
  
