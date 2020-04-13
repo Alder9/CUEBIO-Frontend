@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AppleService } from '../apple.service';
+import { FormControl } from '@angular/forms';
 import { Apple } from '../apple';
+
+interface Option {
+  name: string;
+  attributes: Array<string>;
+};
 
 @Component({
   selector: 'app-filter',
@@ -13,16 +19,55 @@ export class FilterComponent implements OnInit {
 
   apples: Apple[] = [];
   applesFilterSelected: String;
+  attrFilterSelected: String;
+  showNumberInput: boolean = false;
+  showAttributeSelect: boolean = false;
 
-  onFilterSelected(applesSelected:any):void{
-    this.appleService.getApplesForFilter(applesSelected)
-    .subscribe(
-      data => {
-        this.apples = data;
-    })
+  number = new FormControl('');
+
+  /* Controls showing number input or select */
+  onFilterSelected(): void{
+    console.log(this.applesFilterSelected);
+    const found = this.getOption();
+    
+    if(found.attributes[0] == 'Number Input') {
+      this.showAttributeSelect = false;
+      this.showNumberInput = true;
+    }
+    else {
+      this.showNumberInput = false;
+      this.showAttributeSelect = true;
+    }
   }
 
-  optionsList: Array<any> = [
+  getAttributes(): Array<String> {
+    const option = this.getOption();
+    if (option == null) {
+      return [''];
+    }
+    else{
+      return option.attributes;
+    }
+  }
+
+  getOption(): Option {
+    return this.optionsList.find(element => element.name == this.applesFilterSelected);
+  }
+
+  filter(): void {
+    console.log(this.number.value);
+
+    // See if the filter selected requires number
+
+    if(this.applesFilterSelected == null || this.number.value == '') {
+      console.log("Nothing selected");
+    }
+    else {
+      // Do the filter - successful
+    }
+  }
+
+  optionsList: Array<Option> = [
     { name: 'Tree Tag ID', attributes: ['Number Input'] },
     { name: 'Genetics', attributes: ['Malus'] },
     { name: 'Specie', attributes: ['Domestica', 'Hybrid', 'X adstringens'] },

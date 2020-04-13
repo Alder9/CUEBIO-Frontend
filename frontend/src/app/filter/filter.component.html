@@ -1,9 +1,18 @@
 <label>Filter By: </label>
-<select [(ngModel)]='applesFilterSelected' (ngModelChange)= 'onFilterSelected($event)'>
+<select [(ngModel)]='applesFilterSelected' (ngModelChange)="onFilterSelected()">
     <option *ngFor='let p of optionsList' [value] ='p.name'>
         {{p.name}}
     </option>
 </select>
+<label *ngIf='showNumberInput'>
+    <input type="number" [formControl]="number">
+</label>
+<select *ngIf='showAttributeSelect' [(ngModel)]='attrFilterSelected'>
+    <option *ngFor='let p of getAttributes()'>
+        {{ p }}
+    </option>
+</select>
+<button (click)="filter()">Filter</button>
 <!-- <div>
     <select placeholder="SelectAttribute" (change)="changeOptions($event.target.value)">
         <option *ngFor ="let count of optionsList">{{count.name}} </option>

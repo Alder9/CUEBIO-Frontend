@@ -17,7 +17,7 @@ import { FilterComponent } from './filter/filter.component';
     AppComponent,
     MapComponent,
     InfoPanelComponent,
-    FilterComponent
+    FilterComponent,
   ],
   imports: [
     BrowserModule,
