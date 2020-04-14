@@ -14,11 +14,10 @@ export class AppleService {
 
   private apples = new BehaviorSubject(null);
   sharedApples = this.apples.asObservable();
-
+    
   constructor(private http: HttpClient) {}
 
   getApples(): Observable<any> {
-
     // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
     return this.http.get('http://localhost:3000/beta/query1'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
   }

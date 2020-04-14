@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppleService } from '../apple.service';
 import { FormControl } from '@angular/forms';
 import { Apple } from '../apple';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 
 interface Option {
   name: string;
@@ -85,11 +86,18 @@ export class FilterComponent implements OnInit {
         // Don't need a Min/Max suffix
         this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
           .subscribe(apples => {});
-      }
-      else {
+      } else {
         // Need a suffix
+        if(this.operatorSelected == '>') { this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+          .subscribe(apples => {});}
+        else { this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
+          .subscribe(apples => {});}
       }
     }
+  }
+
+  resetfilter(): void {
+    // TODO: reset the filter
   }
 
   // TODO: Add Final Cultivar
@@ -99,6 +107,7 @@ export class FilterComponent implements OnInit {
     { name: 'Tree Height', attributes: ['Number Input'], queryLabel: ['TreeHeightMin', 'TreeHeightMax'] },
     { name: 'Trip Dripline', attributes: ['Number Input'], queryLabel: ['DriplineMin', 'DriplineMax'] },
     { name: 'Fruit Hanging Diameter', attributes: ['Number Input'], queryLabel: ['FruitDiameterMin', 'FruitDiameterMax'] },
+    { name: 'Final Cultivar', attributes: ['Cider'], queryLabel: ['FinalCultivar'] },
   ];
 
   ngOnInit() {
