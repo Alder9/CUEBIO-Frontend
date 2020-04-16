@@ -1,10 +1,12 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { InfoPanelComponent} from './info-panel/info-panel.component';
 import { MapComponent} from './map/map.component';
+import { FilterComponent } from './filter/filter.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,11 +16,14 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       declarations: [
         AppComponent,
         InfoPanelComponent,
-        MapComponent
+        MapComponent,
+        FilterComponent
       ],
     }).compileComponents();
   }));

@@ -1,0 +1,21 @@
+<label style="margin:5px;">Filter By:</label>
+<select [(ngModel)]='applesFilterSelected' (ngModelChange)="onFilterSelected()" style="margin:5px;">
+    <option *ngFor='let p of optionsList' [value] ='p.name'>
+        {{p.name}}
+    </option>
+</select>
+<select *ngIf='showGreaterLessThanSelect' [(ngModel)]='operatorSelected' style="margin:5px;">
+    <option>></option>
+    <option><</option>
+</select>
+<label *ngIf='showEqualTo' style="margin:5px;"> = </label>
+<label *ngIf='showNumberInput' style="margin:5px;">
+    <input type="number" [formControl]="number">
+</label>
+<select *ngIf='showAttributeSelect' [(ngModel)]='attrFilterSelected' style="margin:5px;">
+    <option *ngFor='let p of getAttributes()'>
+        {{ p }}
+    </option>
+</select>
+<button (click)="filter()" style="margin:5px;">Filter</button>
+<button (click)="resetfilter()" style="margin:5px;">Clear Search</button>

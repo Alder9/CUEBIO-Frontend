@@ -55,18 +55,7 @@ export class MapComponent implements OnInit {
   getRandomAdjustment(): number {
     return Math.random() * (0.001 - 0.0005) + 0.0005;
   }
-
-  getApples(): void {
-    this.appleService.getApples()
-        .subscribe(data => {
-          this.apples = data;
-          console.log(this.apples);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
+  
   createAppleMarkers(this): L.markerClusterGroup {
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
@@ -88,13 +77,11 @@ export class MapComponent implements OnInit {
 
     this.appleService.getApples()
       .subscribe(apples => {
-        apples.forEach(function(a) {
-          // console.log(a);
-          // var apple = new Apple(a);
-          
+        console.log(apples);
+        apples['body'].forEach(function(a) {
+
           var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
           if(a.treeLatitude != null && a.treeLongitude != null) {
-    
             am.setApple(a);
             am.on('click', function() {
               // console.log(am.getApple().id);
@@ -173,6 +160,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.appleService.getApples();
     this.initMap();
   }
 

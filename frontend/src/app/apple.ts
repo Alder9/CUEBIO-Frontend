@@ -1,4 +1,5 @@
 export class Apple {
+
     tree_tag_id: number;
     genetics: string;
     species: string;
