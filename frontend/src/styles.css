@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 html,
+header {
+    position: fixed;
+    height: 99%;
+}
 body {
     overflow: auto;
     height: 98%;
     width: 99vw;
+    background-color: #F9F4F1;
 }

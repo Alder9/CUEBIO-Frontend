@@ -88,16 +88,29 @@ export class FilterComponent implements OnInit {
           .subscribe(apples => {});
       } else {
         // Need a suffix
-        if(this.operatorSelected == '>') { this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
-          .subscribe(apples => {});}
-        else { this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
-          .subscribe(apples => {});}
+        if(this.operatorSelected == '>') {
+          this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+          .subscribe(apples => {});
+        } else {
+          this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
+          .subscribe(apples => {});
+        }
       }
     }
   }
 
   resetfilter(): void {
-    // TODO: reset the filter
+    // TODO: reset the map
+    if(this.applesFilterSelected == null) {
+      return;
+    }
+    const filterOption = this.getOption();
+    console.log(filterOption.name);
+    this.applesFilterSelected = null;
+    
+    // this.filter();
+
+    this.appleService.getApples();
   }
 
   // TODO: Add Final Cultivar
