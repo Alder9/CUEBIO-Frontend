@@ -9,6 +9,12 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/images/:appleid/', (req, res) => {
+  console.log(req.params.appleid);
+
+  res.json({});
+});
+
 app.get('/filter/:filterName/value/:value', (req, res) => {
   console.log(req.params.filterName);
   console.log(req.params.value);
@@ -23,7 +29,7 @@ app.get('/beta/query1', (req, res) => {
         return res.status(500).json({ type: 'error', message: err.message });
       }
       
-        res.json(JSON.parse(body));
+      res.json(JSON.parse(body));
     }
   )
 });
