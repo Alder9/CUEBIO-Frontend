@@ -29,17 +29,19 @@ app.get('/images/:appleid/', (req, res) => {
     if(err) {
       console.log("Error", err);
     } else {
-      console.log("Success", data['Contents']);
-
+      // console.log("Success", data['Contents']);
       data.Contents.forEach(function(obj, index){
-        image_paths.push(obj.Key)
+        const url = s3.getSignedUrl('getObject', {
+          Bucket: 'appletreebucket',
+          Key: obj.Key,
+          Expires: 3600
+        })
+        image_paths.push(url)
       });
 
-      console.log(image_paths);
+      res.json(image_paths);
     }
-  })
-
-  res.json({});
+  });
 });
 
 app.get('/filter/:filterName/value/:value', (req, res) => {
