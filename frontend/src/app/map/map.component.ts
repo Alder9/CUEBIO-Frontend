@@ -2,8 +2,8 @@ import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Apple } from '../apple';
-import { InfoPanelService } from '../info-panel.service';
-import { AppleService } from '../apple.service';
+import { InfoPanelService } from '../services/info-panel.service';
+import { AppleService } from '../services/apple.service';
 
 import { appleMarker } from '../apple-marker';
 

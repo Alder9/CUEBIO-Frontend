@@ -1,7 +1,7 @@
 import { TestBed, ComponentFixture ,async} from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { Apple } from './apple';
+import { Apple } from '../apple';
 import { AppleService } from './apple.service';
 import { HttpClient } from '@angular/common/http';
 

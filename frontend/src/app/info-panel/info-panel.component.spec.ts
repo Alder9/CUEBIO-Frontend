@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfoPanelComponent } from './info-panel.component';
-import { InfoPanelService } from '../info-panel.service';
+import { InfoPanelService } from '../services/info-panel.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('InfoPanelComponent', () => {

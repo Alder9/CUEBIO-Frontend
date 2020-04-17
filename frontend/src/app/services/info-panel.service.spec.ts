@@ -1,7 +1,7 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { InfoPanelService } from './info-panel.service';
-import { Apple } from './apple';
+import { Apple } from '../apple';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpClientModule, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 

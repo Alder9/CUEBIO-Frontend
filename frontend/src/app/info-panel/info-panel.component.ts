@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apple } from '../apple';
-import { InfoPanelService } from '../info-panel.service';
+import { InfoPanelService } from '../services/info-panel.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
 @Component({

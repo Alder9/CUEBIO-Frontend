@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Apple } from './apple';
+import { Apple } from '../apple';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
