@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Apple } from './apple';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,8 @@ export class InfoPanelService {
 
   apple: Apple;
   images: Observable<any>;
+
+  constructor(private http: HttpClient) { }
 
   showPanel() {
     this.show = true;
@@ -40,6 +42,4 @@ export class InfoPanelService {
   getImage(imageUrl: string): Observable<Blob> {
     return this.http.get(imageUrl, {responseType: 'blob'});
   }
-
-  constructor(private http: HttpClient) { }
 }

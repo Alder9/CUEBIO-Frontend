@@ -32,8 +32,6 @@ export class AppleService {
     console.log(this.httpGETFiltered);
     return this.httpGETFiltered;
   }
-    
- 
 }
 
 
