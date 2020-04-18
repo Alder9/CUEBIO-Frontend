@@ -24,17 +24,12 @@ export class AppleService {
 
   getApples(): Observable<any> {
     // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
-    return this.http.get('http://localhost:3000/beta/query1'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
+    return this.http.get('http://localhost:3000/apples'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
   }
 
-  getFilteredApples(selectedFilter: String, value: String): Observable<any> {
-    console.log("getting filtered apples");
-    console.log(selectedFilter);
-    console.log(value);
-    console.log('http://localhost:3000/filter/' + selectedFilter + '/value/' + value);
-    this.httpGETFiltered = this.http.get('http://localhost:3000/filter/' + selectedFilter + '/value/' + value)
-    console.log(this.httpGETFiltered);
-    return this.httpGETFiltered;
+  getFilteredApples(selectedFilter: any, value: any): Observable<any> {
+  
+    return this.http.get('http://localhost:3000/' + selectedFilter + '/' + value);
   }
     
  
