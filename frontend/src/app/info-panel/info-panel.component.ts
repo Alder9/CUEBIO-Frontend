@@ -10,7 +10,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 })
 export class InfoPanelComponent implements OnInit {
 
-  images: String[];
+  images: string[];
 
   imageObserver = {
     next: x => this.images = x,
@@ -26,8 +26,33 @@ export class InfoPanelComponent implements OnInit {
     this.infoPanelService.imagesSource.subscribe(this.imageObserver);
   }
 
-  onImageLoad() {
-    console.log('Image load');
+  // Not working as intended - struggling with images rotating
+  loadImages(x) {
+    // this.images = x;
+    x.forEach(function(img) {
+      let imageRoot = document.createElement('div');
+      imageRoot.className = 'responsive';
+      let imageGallery = document.createElement('div');
+      imageGallery.className = 'gallery';
+
+
+      var image = new Image();
+      image.src = img;
+      var w = image.naturalWidth || image.width,
+          h = image.naturalHeight || image.height;
+
+      if(w > h) {
+        image.style.transform = 'rotate(90deg)';
+      }
+      image.style.width = '200px';
+      imageGallery.appendChild(image);
+      imageRoot.appendChild(imageGallery);
+      
+      document.getElementById('apple-images').appendChild(imageRoot);
+
+      this.images.push(image);
+      console.log(this.images);
+    }, this)
   }
 
   add(apple : Apple) {

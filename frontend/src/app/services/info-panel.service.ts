@@ -11,11 +11,11 @@ export class InfoPanelService {
   show: boolean = false;
 
   apple: Apple;
-  private images: String[];
-  imagesSource = new BehaviorSubject<String[]>([]);
+  private images: string[];
+  imagesSource = new BehaviorSubject<string[]>([]);
 
   constructor(private http: HttpClient) { 
-    this.images = new Array<String>();
+    this.images = new Array<string>();
   }
 
   showPanel() {
@@ -28,13 +28,13 @@ export class InfoPanelService {
 
   add(apple: Apple) {
     this.apple = apple;
-    console.log(this.apple);
+    this.grabImages();
   }
 
   grabImages() {
     console.log("Grabbing images for " + this.apple.tree_tag_id);
 
-    this.http.get<String[]>('http://localhost:3000/images/' + this.apple.tree_tag_id)
+    this.http.get<string[]>('http://localhost:3000/images/' + this.apple.tree_tag_id)
       .subscribe(data => {
         this.images = data;
         this.imagesSource.next(this.images);

@@ -86,7 +86,7 @@ export class MapComponent implements OnInit {
             am.on('click', function() {
               // console.log(am.getApple().id);
               this.infoPanelService.add(am.getApple());
-              this.infoPanelService.grabImages();
+              // this.infoPanelService.grabImages();
               this.infoPanelService.showPanel();
               // console.log(this.map.getZoom());
               var zoom = this.map.getZoom();

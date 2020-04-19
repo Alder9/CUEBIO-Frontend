@@ -4,12 +4,11 @@ body {
 }
 
 img {
-    /* -webkit-transform:rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
-    transform: rotate(90deg); */
-    image-orientation: from-image;
+    transform: rotate(90deg); 
+    -webkit-transform: rotate(90deg);
 }
 
 div.gallery img {
@@ -39,7 +38,7 @@ div.desc {
 }
 
 .responsive {
-    padding: 20px 0px;
+    padding: 25px 2px;
     float: left;
     width: 48%;
 }
