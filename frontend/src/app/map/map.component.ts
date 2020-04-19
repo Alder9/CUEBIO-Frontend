@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
-import { AppleService } from '../apple.service';
+import { AppleService, AppleResponse } from '../apple.service';
 
 import { appleMarker } from '../apple-marker';
 
@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
   });
 
   private map: L.map;
-  apples: Apple[];
+  apples: AppleResponse;
   markers: L.marker[];
   clusters: L.markercluster;
 
@@ -49,11 +49,10 @@ export class MapComponent implements OnInit {
     next: x => console.log(x),
     error: err => console.log('Observer got an error: ' + err),
     complete: () => console.log('Observer.got a complete notification'),
-
   };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-    this.apples = [];
+    this.apples = {body: []};
   }
 
   getMap() {
@@ -87,7 +86,7 @@ export class MapComponent implements OnInit {
     //   .subscribe(apples => {
       // this.apple = this.appleService.getApples();
       console.log("apple ", this.apples);
-      this.apples.forEach(function(a) {
+      this.apples.body.forEach(function(a) {
 
         var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
         if(a.treeLatitude != null && a.treeLongitude != null) {
