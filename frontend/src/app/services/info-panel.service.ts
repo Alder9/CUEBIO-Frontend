@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { Apple } from '../apple';
-import { Observable } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InfoPanelService {
-
   show: boolean = false;
 
   apple: Apple;
-  images: Observable<any>;
+  private images: String[];
+  imagesSource = new BehaviorSubject<String[]>([]);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.images = new Array<String>();
+  }
 
   showPanel() {
     this.show = true;
@@ -32,9 +34,10 @@ export class InfoPanelService {
   grabImages() {
     console.log("Grabbing images for " + this.apple.tree_tag_id);
 
-    this.http.get('http://localhost:3000/images/' + this.apple.tree_tag_id)
+    this.http.get<String[]>('http://localhost:3000/images/' + this.apple.tree_tag_id)
       .subscribe(data => {
-        console.log(data);
+        this.images = data;
+        this.imagesSource.next(this.images);
       })
     
   }

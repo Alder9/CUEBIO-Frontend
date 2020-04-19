@@ -10,6 +10,30 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 })
 export class InfoPanelComponent implements OnInit {
 
+  images: String[];
+
+  imageObserver = {
+    next: x => this.images = x,
+    error: err => console.log('Observer got an error: ' + err),
+    complete: () => console.log('Observer.got a complete notification'),
+  };
+
+  constructor(public infoPanelService: InfoPanelService) { 
+    this.images = [];
+  }
+
+  ngOnInit() {
+    this.infoPanelService.imagesSource.subscribe(this.imageObserver);
+  }
+
+  onImageLoad() {
+    console.log('Image load');
+  }
+
+  add(apple : Apple) {
+    this.infoPanelService.add(apple);
+  }
+
   onClose() {
     this.infoPanelService.hidePanel();
   }
@@ -138,15 +162,6 @@ export class InfoPanelComponent implements OnInit {
     else {
       return this.infoPanelService.apple.fruitHanging;
     }
-  }
-
-  add(apple : Apple) {
-    this.infoPanelService.add(apple);
-  }
-
-  constructor(public infoPanelService: InfoPanelService) { }
-
-  ngOnInit() {
   }
 
 }

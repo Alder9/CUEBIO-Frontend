@@ -45,13 +45,13 @@ app.get('/images/:appleid/', (req, res) => {
         });
   
         cache.put(req.params.appleid, image_paths, 1800000);
-  
+        console.log('from aws', image_paths);
         res.json(image_paths);
       }
     });
   }
   else {
-    console.log('grabbing from cache');
+    console.log('grabbing from cache', cache_contents);
     res.json(cache_contents);
   }
 
