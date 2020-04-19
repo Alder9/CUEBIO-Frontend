@@ -4,9 +4,9 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Apple } from './apple';
 // import { Subject } from 'rxjs/Rx';
 
-
-
-
+export interface AppleResponse {
+  body: Apple[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +16,21 @@ export class AppleService {
   BASE_URL = 'http://localhost:3000';
 
 
-  private apples: Apple[];
+  private apples: AppleResponse;
+  applesSource = new BehaviorSubject<AppleResponse>({body: []});
 
 
-  applesSource = new BehaviorSubject<Apple[]>([]);
   // sharedApples = this.apples.asObservable();
     
   constructor(private http: HttpClient) {
-    this.apples = new Array<Apple>();
   }
 
   getApples() {
-    this.http.get(this.BASE_URL + '/apples')
+    this.http.get<AppleResponse>(this.BASE_URL + '/apples')
     .subscribe(data => {
       this.apples = data;
       console.log('get apples service ', this.apples);
       this.applesSource.next(this.apples);
-
     })
   }
   
