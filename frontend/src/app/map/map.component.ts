@@ -41,11 +41,19 @@ export class MapComponent implements OnInit {
   });
 
   private map: L.map;
-  apples: Apple[] = [];
+  apples: Apple[];
   markers: L.marker[];
   clusters: L.markercluster;
 
+  appleObserver = {
+    next: x => console.log(x),
+    error: err => console.log('Observer got an error: ' + err),
+    complete: () => console.log('Observer.got a complete notification'),
+
+  };
+
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
+    this.apples = [];
   }
 
   getMap() {
@@ -75,36 +83,37 @@ export class MapComponent implements OnInit {
       }
     });
 
-    this.appleService.getApples()
-      .subscribe(apples => {
-        console.log(apples);
-        apples['body'].forEach(function(a) {
+    // this.appleService.getApples()
+    //   .subscribe(apples => {
+      // this.apple = this.appleService.getApples();
+      console.log("apple ", this.apples);
+      this.apples.forEach(function(a) {
 
-          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          if(a.treeLatitude != null && a.treeLongitude != null) {
-            am.setApple(a);
-            am.on('click', function() {
-              // console.log(am.getApple().id);
-              this.infoPanelService.add(am.getApple());
-              this.infoPanelService.showPanel();
-              // console.log(this.map.getZoom());
-              var zoom = this.map.getZoom();
-              if(zoom < this.map.getMaxZoom()) {
-                zoom += 1;
-              }
-              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-            }, this);
-            this.markers.push(am);
-            // console.log(this.markers);
-          }
-        }, this);
+        var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+        if(a.treeLatitude != null && a.treeLongitude != null) {
+          am.setApple(a);
+          am.on('click', function() {
+            // console.log(am.getApple().id);
+            this.infoPanelService.add(am.getApple());
+            this.infoPanelService.showPanel();
+            // console.log(this.map.getZoom());
+            var zoom = this.map.getZoom();
+            if(zoom < this.map.getMaxZoom()) {
+              zoom += 1;
+            }
+            this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+          }, this);
+          this.markers.push(am);
+          // console.log(this.markers);
+        }
+      }, this);
 
     
       clusterMarkers.addLayers(this.markers);
       // console.log(this.markers);
       // L.featureGroup(this.markers)
         // .addTo(this.map);
-    });
+    // });
 
     return clusterMarkers;
   }
@@ -160,7 +169,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+  
     this.appleService.getApples();
+    this.appleService.applesSource.subscribe(this.appleObserver);
     this.initMap();
   }
 

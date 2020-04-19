@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Apple } from './apple';
+// import { Subject } from 'rxjs/Rx';
 
 
 
@@ -10,27 +12,48 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AppleService {
-  messages = [];
 
-  private thomasURL = "https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1";
-  private localhost3000query = 'http://localhost:3000/beta/query1';
+  BASE_URL = 'http://localhost:3000';
 
-  public httpGETFiltered;
 
-  private apples = new BehaviorSubject(null);
-  sharedApples = this.apples.asObservable();
-    
-  constructor(private http: HttpClient) {}
+  private apples: Apple[];
 
-  getApples(): Observable<any> {
-    // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
-    return this.http.get('http://localhost:3000/apples'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
-  }
-
-  getFilteredApples(selectedFilter: any, value: any): Observable<any> {
+  // private messageSubjet = new Subject();
   
-    return this.http.get('http://localhost:3000/' + selectedFilter + '/' + value);
+  // private thomasURL = "https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1";
+  // private localhost3000query = 'http://localhost:3000/beta/query1';
+
+  // public httpGETFiltered;
+
+  applesSource = new BehaviorSubject<Apple[]>([]);
+  // sharedApples = this.apples.asObservable();
+    
+  constructor(private http: HttpClient) {
+    this.apples = new Array<Apple>();
   }
+
+  getApples() {
+    this.http.get(this.BASE_URL + '/apples')
+    .subscribe(data => {
+      this.apples = data;
+      console.log('get apples service ', this.apples);
+      this.applesSource.next(this.apples);
+
+    })
+  }
+  
+
+
+  // getApples(): Observable<any> {
+
+  //  return this.http.get(this.BASE_URL + '/apples'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
+  // }
+
+  // getFilteredApples(selectedFilter: String, value: String): Observable<any> {
+  
+  //   return this.http.get(this.BASE_URL + selectedFilter + '/' + value);
+   
+  // }
     
  
 }
