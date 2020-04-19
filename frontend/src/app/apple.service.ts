@@ -18,12 +18,6 @@ export class AppleService {
 
   private apples: Apple[];
 
-  // private messageSubjet = new Subject();
-  
-  // private thomasURL = "https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1";
-  // private localhost3000query = 'http://localhost:3000/beta/query1';
-
-  // public httpGETFiltered;
 
   applesSource = new BehaviorSubject<Apple[]>([]);
   // sharedApples = this.apples.asObservable();
@@ -57,5 +51,4 @@ export class AppleService {
     
  
 }
-
 

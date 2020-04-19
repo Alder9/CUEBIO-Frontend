@@ -44,7 +44,7 @@ export class MapComponent implements OnInit {
   apples: Apple[];
   markers: L.marker[];
   clusters: L.markercluster;
-
+  
   appleObserver = {
     next: x => console.log(x),
     error: err => console.log('Observer got an error: ' + err),
@@ -53,7 +53,7 @@ export class MapComponent implements OnInit {
   };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-    this.apples = [];
+    // this.apples = [];
   }
 
   getMap() {
@@ -86,7 +86,7 @@ export class MapComponent implements OnInit {
     // this.appleService.getApples()
     //   .subscribe(apples => {
       // this.apple = this.appleService.getApples();
-      console.log("apple ", this.apples);
+      console.log("apple ", this.apple$);
       this.apples.forEach(function(a) {
 
         var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
@@ -171,7 +171,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {
   
     this.appleService.getApples();
-    this.appleService.applesSource.subscribe(this.appleObserver);
+    // this.appleService.applesSource.subscribe(this.appleObserver);
     this.initMap();
   }
 
