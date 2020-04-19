@@ -120,7 +120,7 @@ export class FilterComponent implements OnInit {
     
     // this.filter();
 
-    this.appleService.getApples();
+    // this.appleService.getApples();
   }
 
   
@@ -136,7 +136,7 @@ export class FilterComponent implements OnInit {
   ];
 
   ngOnInit() {
-   
+    // this.appleService.getApples();
   }
   
 }

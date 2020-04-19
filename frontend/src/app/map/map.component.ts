@@ -47,19 +47,42 @@ export class MapComponent implements OnInit {
   
   
   appleObserver = {
-    next: x => this.apples = x,
+    next: x => this.UpdateApples(x),
     error: err => console.log('Observer got an error: ' + err),
     complete: () => console.log('Observer.got a complete notification'),
   };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-
-    // this.apples = [];
-
     this.apples = {body: []};
-
   }
 
+  UpdateApples(x){
+    this.apples = x;
+    console.log("observer : ", this.apples);
+    this.apples.body.forEach(function(a) {
+      // console.log("forEach : ", a);
+      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+      if(a.treeLatitude != null && a.treeLongitude != null) {
+        am.setApple(a);
+        am.on('click', function() {
+          // console.log(am.getApple().id);
+          this.infoPanelService.add(am.getApple());
+          this.infoPanelService.showPanel();
+          // console.log(this.map.getZoom());
+          var zoom = this.map.getZoom();
+          if(zoom < this.map.getMaxZoom()) {
+            zoom += 1;
+          }
+          this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+        }, this);
+        this.markers.push(am);
+        // console.log(this.markers);
+      }
+    },this);
+  
+  }
+
+  
   getMap() {
     return this.map;
   }
@@ -87,38 +110,36 @@ export class MapComponent implements OnInit {
       }
     });
 
-    // this.appleService.getApples()
+    // this.appleService.getApplesone()
     //   .subscribe(apples => {
-      // this.apple = this.appleService.getApples();
+    //     console.log(apples);
+    //     apples['body'].forEach(function(a) {
 
-      console.log("apple ", this.apples);
-      this.apples.body.forEach(function(a) {
-
-
-        var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-        if(a.treeLatitude != null && a.treeLongitude != null) {
-          am.setApple(a);
-          am.on('click', function() {
-            // console.log(am.getApple().id);
-            this.infoPanelService.add(am.getApple());
-            this.infoPanelService.showPanel();
-            // console.log(this.map.getZoom());
-            var zoom = this.map.getZoom();
-            if(zoom < this.map.getMaxZoom()) {
-              zoom += 1;
-            }
-            this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-          }, this);
-          this.markers.push(am);
-          // console.log(this.markers);
-        }
-      }, this);
+    //       var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+    //       if(a.treeLatitude != null && a.treeLongitude != null) {
+    //         am.setApple(a);
+    //         am.on('click', function() {
+    //           // console.log(am.getApple().id);
+    //           this.infoPanelService.add(am.getApple());
+    //           this.infoPanelService.grabImages();
+    //           this.infoPanelService.showPanel();
+    //           // console.log(this.map.getZoom());
+    //           var zoom = this.map.getZoom();
+    //           if(zoom < this.map.getMaxZoom()) {
+    //             zoom += 1;
+    //           }
+    //           this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+    //         }, this);
+    //         this.markers.push(am);
+    //         console.log(this.markers);
+    //       }
+    //     }, this);
 
     
       clusterMarkers.addLayers(this.markers);
       // console.log(this.markers);
       // L.featureGroup(this.markers)
-        // .addTo(this.map);
+      //   .addTo(this.map);
     // });
 
     return clusterMarkers;
@@ -158,7 +179,8 @@ export class MapComponent implements OnInit {
 
     // Apple Markers
     this.clusters = this.createAppleMarkers();
-    this.map.addLayer(this.clusters);
+    console.log("this cluster ",this.clusters);
+    this.map.addLayer(this.markers);
 
     var baseLayers = {
       "Topological": Esri_WorldTopoMap,
@@ -179,6 +201,7 @@ export class MapComponent implements OnInit {
     this.appleService.getApples();
     this.appleService.applesSource.subscribe(this.appleObserver);
     this.initMap();
+    
   }
 
 

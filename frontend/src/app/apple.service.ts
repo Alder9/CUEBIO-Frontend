@@ -36,17 +36,21 @@ export class AppleService {
   
 
 
-  // getApples(): Observable<any> {
+  // getApplesone(): Observable<any> {
 
   //  return this.http.get(this.BASE_URL + '/apples'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
   // }
 
-  // getFilteredApples(selectedFilter: String, value: String): Observable<any> {
+  getFilteredApples(selectedFilter: String, value: String) {
   
-  //   return this.http.get(this.BASE_URL + selectedFilter + '/' + value);
+    this.http.get<AppleResponse>(this.BASE_URL + selectedFilter + '/' + value)
+    .subscribe(data => {
+      this.apples = data;
+      console.log('get filter apples service ', this.apples);
+      this.applesSource.next(this.apples);
    
-  // }
-    
- 
+    })
+  }
+  
 }
 
