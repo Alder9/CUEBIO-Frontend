@@ -1,6 +1,8 @@
 const express = require('express');
 const request = require('request');
 const aws = require('aws-sdk');
+var cache = require('memory-cache');
+
 var config = require('./config');
 var s3  = new aws.S3({accessKeyId: config.aws.accessKeyId, secretAccessKey: config.aws.secretAccessKey, region: config.aws.region});
 
@@ -23,25 +25,37 @@ app.get('/images/:appleid/', (req, res) => {
 
   image_paths = []
 
-  getParams['Prefix'] = 'tree_' + req.params.appleid + '/';
+  getParams.Prefix = 'tree_' + req.params.appleid + '/';
 
-  s3.listObjects(getParams, function(err, data) {
-    if(err) {
-      console.log("Error", err);
-    } else {
-      // console.log("Success", data['Contents']);
-      data.Contents.forEach(function(obj, index){
-        const url = s3.getSignedUrl('getObject', {
-          Bucket: 'appletreebucket',
-          Key: obj.Key,
-          Expires: 3600
-        })
-        image_paths.push(url)
-      });
+  const cache_contents = cache.get(req.params.appleid);
+  if (cache_contents == null) {
+    s3.listObjects(getParams, function(err, data) {
+      if(err) {
+        console.log("Error", err);
+      } else {
+        // console.log("Success", data['Contents']);
+        data.Contents.forEach(function(obj, index){
+          const url = s3.getSignedUrl('getObject', {
+            Bucket: 'appletreebucket',
+            Key: obj.Key,
+            Expires: 1800
+          })
+  
+          image_paths.push(url)
+        });
+  
+        cache.put(req.params.appleid, image_paths, 1800000);
+  
+        res.json(image_paths);
+      }
+    });
+  }
+  else {
+    console.log('grabbing from cache');
+    res.json(cache_contents);
+  }
 
-      res.json(image_paths);
-    }
-  });
+  
 });
 
 app.get('/filter/:filterName/value/:value', (req, res) => {
