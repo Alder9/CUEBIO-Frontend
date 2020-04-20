@@ -2,27 +2,14 @@
     <span class="close" (click)="onClose()">&times;</span>
     <!-- <p>{{ apple.id }}</p> -->
     <div *ngIf="infoPanelService.apple">
-        <div class="responsive">
-            <div class="gallery">
-                <img src="../../assets/IMG_0595.jpg">
-            </div>
-        </div>
+        <!-- <div class="apple-images">
 
-        <div class="responsive">
-            <div class="gallery">
-                <img src="../../assets/IMG_0596.jpg">
-            </div>
-        </div>
-
-        <div class="responsive">
-            <div class="gallery">
-                <img src="../../assets/IMG_0597.jpg">
-            </div>
-        </div>
-
-        <div class="responsive">
-            <div class="gallery">
-                <img src="../../assets/IMG_0599.jpg">
+        </div> -->
+        <div *ngFor="let image of images" (onload)="onImageLoad()">
+            <div class="responsive">
+                <div class="gallery">
+                    <img src="{{ image }}">
+                </div>
             </div>
         </div>
 

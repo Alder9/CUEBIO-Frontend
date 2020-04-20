@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apple } from '../apple';
-import { InfoPanelService } from '../info-panel.service';
+import { InfoPanelService } from '../services/info-panel.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -9,6 +9,55 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
   styleUrls: ['./info-panel.component.css']
 })
 export class InfoPanelComponent implements OnInit {
+
+  images: string[];
+
+  imageObserver = {
+    next: x => this.images = x,
+    error: err => console.log('Observer got an error: ' + err),
+    complete: () => console.log('Observer.got a complete notification'),
+  };
+
+  constructor(public infoPanelService: InfoPanelService) { 
+    this.images = [];
+  }
+
+  ngOnInit() {
+    this.infoPanelService.imagesSource.subscribe(this.imageObserver);
+  }
+
+  // Not working as intended - struggling with images rotating
+  loadImages(x) {
+    // this.images = x;
+    x.forEach(function(img) {
+      let imageRoot = document.createElement('div');
+      imageRoot.className = 'responsive';
+      let imageGallery = document.createElement('div');
+      imageGallery.className = 'gallery';
+
+
+      var image = new Image();
+      image.src = img;
+      var w = image.naturalWidth || image.width,
+          h = image.naturalHeight || image.height;
+
+      if(w > h) {
+        image.style.transform = 'rotate(90deg)';
+      }
+      image.style.width = '200px';
+      imageGallery.appendChild(image);
+      imageRoot.appendChild(imageGallery);
+      
+      document.getElementById('apple-images').appendChild(imageRoot);
+
+      this.images.push(image);
+      console.log(this.images);
+    }, this)
+  }
+
+  add(apple : Apple) {
+    this.infoPanelService.add(apple);
+  }
 
   onClose() {
     this.infoPanelService.hidePanel();
@@ -138,15 +187,6 @@ export class InfoPanelComponent implements OnInit {
     else {
       return this.infoPanelService.apple.fruitHanging;
     }
-  }
-
-  add(apple : Apple) {
-    this.infoPanelService.add(apple);
-  }
-
-  constructor(public infoPanelService: InfoPanelService) { }
-
-  ngOnInit() {
   }
 
 }

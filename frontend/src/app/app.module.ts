@@ -28,7 +28,10 @@ import { FilterComponent } from './filter/filter.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  exports: [
+    HttpClientModule
+  ],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

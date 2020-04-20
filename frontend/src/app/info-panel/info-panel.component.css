@@ -3,17 +3,30 @@ body {
     margin: 10em;
 }
 
-img {
-    -webkit-transform:rotate(90deg);
-    -moz-transform: rotate(90deg);
+.gallery img {
+    /* -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
-    transform: rotate(90deg);
+    transform: rotate(90deg); 
+    -webkit-transform: rotate(90deg); */
+    /* width: 100%;
+    overflow: hidden;
+    display: block; */
+
+    max-height: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: hidden;
+    opacity: 100%;
 }
 
-div.gallery img {
-    width: 125%;
-    height: auto;
+.gallery {
+    position: relative;
+    width: 150px;
+    /* height: 150px; */
+    overflow: hidden;
+    padding: 0px 3px;
 }
 
 div.desc {
@@ -38,9 +51,14 @@ div.desc {
 }
 
 .responsive {
-    padding: 20px 0px;
+    padding: 5px 0px;
     float: left;
     width: 48%;
+    overflow: hidden;
+}
+
+.clearfix {
+    background-color: rgba(128, 128, 128, 0.171);
 }
 
 .clearfix:after {

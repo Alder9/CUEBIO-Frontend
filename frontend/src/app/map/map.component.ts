@@ -2,10 +2,9 @@ import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Apple } from '../apple';
-import { InfoPanelService } from '../info-panel.service';
-import { AppleService } from '../apple.service';
+import { InfoPanelService } from '../services/info-panel.service';
+import { AppleService, AppleResponse } from '../services/apple.service';
 
-import { appleMarker } from '../apple-marker';
 
 @Component({
   selector: 'app-map',
@@ -41,22 +40,18 @@ export class MapComponent implements OnInit {
   });
 
   private map: L.map;
-  apples: Apple[] = [];
+  apples: AppleResponse;
   markers: L.marker[];
-  clusters: L.markercluster;
+  clusters: L.markerClusterGroup;
+  
+  
+  appleObserver = {
+    next: x => this.UpdateApples(x),
+    error: err => console.log('Observer got an error: ' + err),
+    complete: () => console.log('Observer.got a complete notification'),
+  };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-  }
-
-  getMap() {
-    return this.map;
-  }
-
-  getRandomAdjustment(): number {
-    return Math.random() * (0.001 - 0.0005) + 0.0005;
-  }
-  
-  createAppleMarkers(this): L.markerClusterGroup {
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
 
@@ -64,7 +59,8 @@ export class MapComponent implements OnInit {
     });
 
     L.DomUtil.TRANSITION = true;
-    var clusterMarkers = L.markerClusterGroup({
+
+    this.clusters = new L.markerClusterGroup({
       maxClusterRadius: 20,
       // zoomToBoundsOnClick: false,
       spiderfyOnMaxZoom: false,
@@ -75,38 +71,52 @@ export class MapComponent implements OnInit {
       }
     });
 
-    this.appleService.getApples()
-      .subscribe(apples => {
-        console.log(apples);
-        apples['body'].forEach(function(a) {
+    this.apples = {body: []};
+    this.markers = [];
+  }
 
-          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          if(a.treeLatitude != null && a.treeLongitude != null) {
-            am.setApple(a);
-            am.on('click', function() {
-              // console.log(am.getApple().id);
-              this.infoPanelService.add(am.getApple());
-              this.infoPanelService.showPanel();
-              // console.log(this.map.getZoom());
-              var zoom = this.map.getZoom();
-              if(zoom < this.map.getMaxZoom()) {
-                zoom += 1;
-              }
-              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-            }, this);
-            this.markers.push(am);
-            // console.log(this.markers);
+  UpdateApples(x){
+    this.apples = x;
+    this.clusters.removeLayers(this.markers)
+    console.log('after remove', this.clusters);
+    this.markers = []
+
+    console.log("observer : ", this.apples);
+    this.apples.body.forEach(function(a) {
+      // console.log("forEach : ", a);
+      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+      if(a.treeLatitude != null && a.treeLongitude != null) {
+        am.setApple(a);
+        am.on('click', function() {
+          // console.log(am.getApple().id);
+          this.infoPanelService.add(am.getApple());
+          this.infoPanelService.showPanel();
+          // console.log(this.map.getZoom());
+          var zoom = this.map.getZoom();
+          if(zoom < this.map.getMaxZoom()) {
+            zoom += 1;
           }
+          this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
         }, this);
+        this.markers.push(am);
+      }
+    }, this);
 
-    
-      clusterMarkers.addLayers(this.markers);
-      // console.log(this.markers);
-      // L.featureGroup(this.markers)
-        // .addTo(this.map);
-    });
+    if(this.markers.length != 0) {
+      this.clusters.addLayers(this.markers);
+      // L.featureGroup(clusterMarkers).addTo(this.map); 
+      this.map.addLayer(this.clusters);
+    } else {
+      console.log('no markers')
+    }
+  }
+  
+  getMap() {
+    return this.map;
+  }
 
-    return clusterMarkers;
+  getRandomAdjustment(): number {
+    return Math.random() * (0.001 - 0.0005) + 0.0005;
   }
   
   private initMap(): void {
@@ -131,9 +141,15 @@ export class MapComponent implements OnInit {
       attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
 
-    var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-      maxZoom: 20,
-      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    var CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    });
+
+    var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16
     });
 
     this.map = L.map('map', {
@@ -141,13 +157,10 @@ export class MapComponent implements OnInit {
       layers: [Esri_WorldTopoMap]
     }).setView([40.0150, -105.2705], 12.5);
 
-    // Apple Markers
-    this.clusters = this.createAppleMarkers();
-    this.map.addLayer(this.clusters);
-
     var baseLayers = {
       "Topological": Esri_WorldTopoMap,
-      "Greyscale": Stadia_AlidadeSmoothDark,
+      "Dark": CartoDB_DarkMatter,
+      "Greyscale": Esri_WorldGrayCanvas,
       "Terrain": Esri_WorldImagery
     }
 
@@ -160,8 +173,10 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appleService.getApples();
     this.initMap();
+
+    this.appleService.getApples();
+    this.appleService.applesSource.subscribe(this.appleObserver);
   }
 
 
