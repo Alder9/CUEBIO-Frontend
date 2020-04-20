@@ -114,7 +114,7 @@ export class FilterComponent implements OnInit {
       return;
     }
     const filterOption = this.getOption();
-    console.log(filterOption.name);
+    console.log('resetfilter ',filterOption.name);
     this.applesFilterSelected = null;
     
     // this.filter();

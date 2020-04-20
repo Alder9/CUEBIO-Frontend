@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Apple } from './apple';
-// import { Subject } from 'rxjs/Rx';
+import * as L from 'leaflet';
 
 export interface AppleResponse {
   body: Apple[];
@@ -13,7 +13,10 @@ export interface AppleResponse {
 })
 export class AppleService {
 
-  BASE_URL = 'http://localhost:3000';
+  BASE_URL = 'http://localhost:3000/';
+
+  markers: L.marker[];
+  clusters: L.markercluster;
 
 
   private apples: AppleResponse;
@@ -26,24 +29,18 @@ export class AppleService {
   }
 
   getApples() {
-    this.http.get<AppleResponse>(this.BASE_URL + '/apples')
+    this.http.get<AppleResponse>(this.BASE_URL + 'apples')
     .subscribe(data => {
       this.apples = data;
       console.log('get apples service ', this.apples);
       this.applesSource.next(this.apples);
     })
   }
-  
 
-
-  // getApplesone(): Observable<any> {
-
-  //  return this.http.get(this.BASE_URL + '/apples'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
-  // }
 
   getFilteredApples(selectedFilter: String, value: String) {
-    console.log(this.BASE_URL + '/' + selectedFilter + '/' + value)
-    this.http.get<AppleResponse>(this.BASE_URL + '/' + selectedFilter + '/' + value)
+    console.log(this.BASE_URL + selectedFilter + '/' + value)
+    this.http.get<AppleResponse>(this.BASE_URL + selectedFilter + '/' + value)
     .subscribe(data => {
       this.apples = data;
       console.log('get filter apples service ', this.apples);
