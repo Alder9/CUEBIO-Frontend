@@ -84,10 +84,8 @@ export class FilterComponent implements OnInit {
     if(this.showAttributeSelect) {
       console.log(filterOption.queryLabel[0]);
       console.log(this.attrFilterSelected);
-      
-     
+      this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected);
     }
-    /*
     else if(this.showNumberInput && this.number.value !== null){
       // Do the filter - successful
       if(filterOption.name == 'Tree Tag ID') {
@@ -108,7 +106,6 @@ export class FilterComponent implements OnInit {
         }
       }
     }
-    */
   }
 
   resetfilter(): void {

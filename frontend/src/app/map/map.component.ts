@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
   private map: L.map;
   apples: AppleResponse;
   markers: L.marker[];
-  clusters: L.markercluster;
+  clusters: L.markerClusterGroup;
   
   
   appleObserver = {
@@ -53,11 +53,6 @@ export class MapComponent implements OnInit {
   };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-    this.apples = {body: []};
-    this.markers = [];
-  }
-
-  UpdateApples(x){
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
 
@@ -65,7 +60,8 @@ export class MapComponent implements OnInit {
     });
 
     L.DomUtil.TRANSITION = true;
-    var clusterMarkers = L.markerClusterGroup({
+
+    this.clusters = new L.markerClusterGroup({
       maxClusterRadius: 20,
       // zoomToBoundsOnClick: false,
       spiderfyOnMaxZoom: false,
@@ -76,8 +72,16 @@ export class MapComponent implements OnInit {
       }
     });
 
+    this.apples = {body: []};
+    this.markers = [];
+  }
+
+  UpdateApples(x){
     this.apples = x;
-    // this.markers = []
+    this.clusters.removeLayers(this.markers)
+    console.log('after remove', this.clusters);
+    this.markers = []
+
     console.log("observer : ", this.apples);
     this.apples.body.forEach(function(a) {
       // console.log("forEach : ", a);
@@ -100,9 +104,9 @@ export class MapComponent implements OnInit {
     }, this);
 
     if(this.markers.length != 0) {
-      clusterMarkers.addLayers(this.markers);
+      this.clusters.addLayers(this.markers);
       // L.featureGroup(clusterMarkers).addTo(this.map); 
-      this.map.addLayer(clusterMarkers);
+      this.map.addLayer(this.clusters);
     } else {
       console.log('no markers')
     }
@@ -163,10 +167,10 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-  
+    this.initMap();
+
     this.appleService.getApples();
     this.appleService.applesSource.subscribe(this.appleObserver);
-    this.initMap();
   }
 
 

@@ -42,8 +42,8 @@ export class AppleService {
   // }
 
   getFilteredApples(selectedFilter: String, value: String) {
-  
-    this.http.get<AppleResponse>(this.BASE_URL + selectedFilter + '/' + value)
+    console.log(this.BASE_URL + '/' + selectedFilter + '/' + value)
+    this.http.get<AppleResponse>(this.BASE_URL + '/' + selectedFilter + '/' + value)
     .subscribe(data => {
       this.apples = data;
       console.log('get filter apples service ', this.apples);
