@@ -77,9 +77,10 @@ export class MapComponent implements OnInit {
     });
 
     this.apples = x;
+    // this.markers = []
     console.log("observer : ", this.apples);
     this.apples.body.forEach(function(a) {
-      console.log("forEach : ", a);
+      // console.log("forEach : ", a);
       var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
       if(a.treeLatitude != null && a.treeLongitude != null) {
         am.setApple(a);
@@ -96,11 +97,10 @@ export class MapComponent implements OnInit {
         }, this);
         this.markers.push(am);
       }
-    },this);
+    }, this);
 
     if(this.markers.length != 0) {
       clusterMarkers.addLayers(this.markers);
-      console.log(clusterMarkers)
       // L.featureGroup(clusterMarkers).addTo(this.map); 
       this.map.addLayer(clusterMarkers);
     } else {
@@ -167,7 +167,6 @@ export class MapComponent implements OnInit {
     this.appleService.getApples();
     this.appleService.applesSource.subscribe(this.appleObserver);
     this.initMap();
-    
   }
 
 
