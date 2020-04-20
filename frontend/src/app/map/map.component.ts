@@ -58,6 +58,7 @@ export class MapComponent implements OnInit {
 
   UpdateApples(x){
     this.apples = x;
+    // this.markers = []
     console.log("observer : ", this.apples);
     this.apples.body.forEach(function(a) {
       // console.log("forEach : ", a);
@@ -79,7 +80,8 @@ export class MapComponent implements OnInit {
         // console.log(this.markers);
       }
     },this);
-  
+    this.markers = [];
+    // this.clusters = this.createAppleMarkers();
   }
 
   
@@ -137,7 +139,7 @@ export class MapComponent implements OnInit {
 
     
       clusterMarkers.addLayers(this.markers);
-      // console.log(this.markers);
+      console.log(this.markers);
       // L.featureGroup(this.markers)
       //   .addTo(this.map);
     // });
@@ -147,7 +149,7 @@ export class MapComponent implements OnInit {
   
   private initMap(): void {
     // Setting location to Boulder
-    this.markers = [];
+    // this.markers = [];
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);
@@ -180,7 +182,8 @@ export class MapComponent implements OnInit {
     // Apple Markers
     this.clusters = this.createAppleMarkers();
     console.log("this cluster ",this.clusters);
-    this.map.addLayer(this.markers);
+    this.map.addLayer(this.clusters);
+    // L.featureGroup(this.markers).addTo(this.map);
 
     var baseLayers = {
       "Topological": Esri_WorldTopoMap,
@@ -201,7 +204,6 @@ export class MapComponent implements OnInit {
     this.appleService.getApples();
     this.appleService.applesSource.subscribe(this.appleObserver);
     this.initMap();
-    
   }
 
 
