@@ -77,11 +77,17 @@ export class MapComponent implements OnInit {
           this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
         }, this);
         this.markers.push(am);
-        // console.log(this.markers);
+        
       }
+      // console.log('UpdateApples ', this.markers);
+      this.clusters = this.createAppleMarkers();
+      this.map.addLayer(this.clusters);
+      L.featureGroup(this.markers).addTo(this.map);
     },this);
-    this.markers = [];
+    // this.markers = [];
     // this.clusters = this.createAppleMarkers();
+    
+    
   }
 
   
@@ -139,7 +145,7 @@ export class MapComponent implements OnInit {
 
     
       clusterMarkers.addLayers(this.markers);
-      console.log(this.markers);
+      // console.log('cluster ',this.markers);
       // L.featureGroup(this.markers)
       //   .addTo(this.map);
     // });
@@ -149,7 +155,7 @@ export class MapComponent implements OnInit {
   
   private initMap(): void {
     // Setting location to Boulder
-    // this.markers = [];
+    this.markers = [];
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);
@@ -180,9 +186,9 @@ export class MapComponent implements OnInit {
     }).setView([40.0150, -105.2705], 12.5);
 
     // Apple Markers
-    this.clusters = this.createAppleMarkers();
-    console.log("this cluster ",this.clusters);
-    this.map.addLayer(this.clusters);
+    // this.clusters = this.createAppleMarkers();
+    // console.log("this cluster ",this.clusters);
+    // this.map.addLayer(this.clusters);
     // L.featureGroup(this.markers).addTo(this.map);
 
     var baseLayers = {

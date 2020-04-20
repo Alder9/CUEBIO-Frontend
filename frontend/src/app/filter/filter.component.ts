@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AppleService } from '../apple.service';
 import { FormControl } from '@angular/forms';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../info-panel.service';
 import { resetFakeAsyncZone } from '@angular/core/testing';
+import { AppleService, AppleResponse } from '../apple.service';
+
 
 
 interface Option {
@@ -19,9 +20,7 @@ interface Option {
 })
 export class FilterComponent implements OnInit {
 
-  constructor(public appleService: AppleService, public infoPanelService: InfoPanelService) { }
 
-  apples: Apple[] = [];
   applesFilterSelected: String;
   attrFilterSelected: String;
   operatorSelected: String;
@@ -31,7 +30,9 @@ export class FilterComponent implements OnInit {
   showGreaterLessThanSelect: boolean = false;
 
 
+  constructor(public appleService: AppleService, public infoPanelService: InfoPanelService) { }
 
+  
   number = new FormControl('');
 
   /* Controls showing number input or select */
@@ -77,36 +78,37 @@ export class FilterComponent implements OnInit {
       return;
     }
 
-    
-    // const filterOption = this.getOption();
+  
+    const filterOption = this.getOption();
 
-  //   if(this.showAttributeSelect) {
-  //     console.log(filterOption.queryLabel[0]);
-  //     console.log(this.attrFilterSelected);
-  //     this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected)
-  //       .subscribe(apples => { console.log("filter ", apples)});
+    if(this.showAttributeSelect) {
+      console.log(filterOption.queryLabel[0]);
+      console.log(this.attrFilterSelected);
+      
      
-  //   }
-  //   else if(this.showNumberInput && this.number.value !== null){
-  //     // Do the filter - successful
-  //     if(filterOption.name == 'Tree Tag ID') {
-  //       // Don't need a Min/Max suffix
-  //       this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
-  //         .subscribe(apples => {});
+    }
+    /*
+    else if(this.showNumberInput && this.number.value !== null){
+      // Do the filter - successful
+      if(filterOption.name == 'Tree Tag ID') {
+        // Don't need a Min/Max suffix
+        // this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+        //   .subscribe(apples => {});
         
-  //     } else {
-  //       // Need a suffix
-  //       if(this.operatorSelected == '>') {
-  //         this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
-  //         .subscribe(apples => {});
+      } else {
+        // Need a suffix
+        if(this.operatorSelected == '>') {
+          // this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+          // .subscribe(apples => {});
           
-  //       } else {
-  //         this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
-  //         .subscribe(apples => {});
+        } else {
+          // this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
+          // .subscribe(apples => {});
        
-  //       }
-  //     }
-  //   }
+        }
+      }
+    }
+    */
   }
 
   resetfilter(): void {
@@ -137,6 +139,7 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     // this.appleService.getApples();
+    // this.appleService.applesSource.subscribe(this.appleObserver);
   }
   
 }
