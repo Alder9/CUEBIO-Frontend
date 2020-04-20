@@ -112,6 +112,11 @@ export class FilterComponent implements OnInit {
     if(this.applesFilterSelected == null) {
       return;
     }
+    this.showEqualTo = false;
+    this.showNumberInput = false;
+    this.showAttributeSelect = false;
+    this.showGreaterLessThanSelect = false;
+    
     const filterOption = this.getOption();
     console.log('resetfilter ',filterOption.name);
     this.applesFilterSelected = null;
