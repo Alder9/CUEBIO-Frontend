@@ -39,7 +39,7 @@ export class AppleService {
 
 
   getFilteredApples(selectedFilter: String, value: String) {
-  
+    console.log(this.BASE_URL + selectedFilter + '/' + value)
     this.http.get<AppleResponse>(this.BASE_URL + selectedFilter + '/' + value)
     .subscribe(data => {
       this.apples = data;
