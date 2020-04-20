@@ -54,44 +54,10 @@ export class MapComponent implements OnInit {
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
     this.apples = {body: []};
+    this.markers = [];
   }
 
   UpdateApples(x){
-    this.apples = x;
-    console.log("observer : ", this.apples);
-    this.apples.body.forEach(function(a) {
-      // console.log("forEach : ", a);
-      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-      if(a.treeLatitude != null && a.treeLongitude != null) {
-        am.setApple(a);
-        am.on('click', function() {
-          // console.log(am.getApple().id);
-          this.infoPanelService.add(am.getApple());
-          this.infoPanelService.showPanel();
-          // console.log(this.map.getZoom());
-          var zoom = this.map.getZoom();
-          if(zoom < this.map.getMaxZoom()) {
-            zoom += 1;
-          }
-          this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-        }, this);
-        this.markers.push(am);
-        // console.log(this.markers);
-      }
-    },this);
-  
-  }
-
-  
-  getMap() {
-    return this.map;
-  }
-
-  getRandomAdjustment(): number {
-    return Math.random() * (0.001 - 0.0005) + 0.0005;
-  }
-  
-  createAppleMarkers(this): L.markerClusterGroup {
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
 
@@ -110,39 +76,44 @@ export class MapComponent implements OnInit {
       }
     });
 
-    // this.appleService.getApplesone()
-    //   .subscribe(apples => {
-    //     console.log(apples);
-    //     apples['body'].forEach(function(a) {
+    this.apples = x;
+    console.log("observer : ", this.apples);
+    this.apples.body.forEach(function(a) {
+      console.log("forEach : ", a);
+      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+      if(a.treeLatitude != null && a.treeLongitude != null) {
+        am.setApple(a);
+        am.on('click', function() {
+          // console.log(am.getApple().id);
+          this.infoPanelService.add(am.getApple());
+          this.infoPanelService.showPanel();
+          // console.log(this.map.getZoom());
+          var zoom = this.map.getZoom();
+          if(zoom < this.map.getMaxZoom()) {
+            zoom += 1;
+          }
+          this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
+        }, this);
+        this.markers.push(am);
+      }
+    },this);
 
-    //       var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-    //       if(a.treeLatitude != null && a.treeLongitude != null) {
-    //         am.setApple(a);
-    //         am.on('click', function() {
-    //           // console.log(am.getApple().id);
-    //           this.infoPanelService.add(am.getApple());
-    //           this.infoPanelService.grabImages();
-    //           this.infoPanelService.showPanel();
-    //           // console.log(this.map.getZoom());
-    //           var zoom = this.map.getZoom();
-    //           if(zoom < this.map.getMaxZoom()) {
-    //             zoom += 1;
-    //           }
-    //           this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-    //         }, this);
-    //         this.markers.push(am);
-    //         console.log(this.markers);
-    //       }
-    //     }, this);
-
-    
+    if(this.markers.length != 0) {
       clusterMarkers.addLayers(this.markers);
-      // console.log(this.markers);
-      // L.featureGroup(this.markers)
-      //   .addTo(this.map);
-    // });
+      console.log(clusterMarkers)
+      // L.featureGroup(clusterMarkers).addTo(this.map); 
+      this.map.addLayer(clusterMarkers);
+    } else {
+      console.log('no markers')
+    }
+  }
+  
+  getMap() {
+    return this.map;
+  }
 
-    return clusterMarkers;
+  getRandomAdjustment(): number {
+    return Math.random() * (0.001 - 0.0005) + 0.0005;
   }
   
   private initMap(): void {
@@ -176,11 +147,6 @@ export class MapComponent implements OnInit {
       // maxBounds: bounds
       layers: [Esri_WorldTopoMap]
     }).setView([40.0150, -105.2705], 12.5);
-
-    // Apple Markers
-    this.clusters = this.createAppleMarkers();
-    console.log("this cluster ",this.clusters);
-    this.map.addLayer(this.markers);
 
     var baseLayers = {
       "Topological": Esri_WorldTopoMap,
