@@ -42,8 +42,8 @@ export class MapComponent implements OnInit {
 
   private map: L.map;
   apples: AppleResponse;
-  markers: L.marker[];
-  clusters: L.markercluster;
+  // markers: L.marker[];
+  // clusters: L.markercluster;
   
   
   appleObserver = {
@@ -54,7 +54,7 @@ export class MapComponent implements OnInit {
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
     this.apples = {body: []};
-    this.markers = [];
+    this.appleService.markers = [];
   }
 
   UpdateApples(x){
@@ -95,12 +95,12 @@ export class MapComponent implements OnInit {
           }
           this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
         }, this);
-        this.markers.push(am);
+        this.appleService.markers.push(am);
       }
     }, this);
 
-    if(this.markers.length != 0) {
-      clusterMarkers.addLayers(this.markers);
+    if(this.appleService.markers.length != 0) {
+      clusterMarkers.addLayers( this.appleService.markers);
       // L.featureGroup(clusterMarkers).addTo(this.map); 
       this.map.addLayer(clusterMarkers);
     } else {
@@ -118,7 +118,7 @@ export class MapComponent implements OnInit {
   
   private initMap(): void {
     // Setting location to Boulder
-    this.markers = [];
+    this.appleService.markers = [];
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);

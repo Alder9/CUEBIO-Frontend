@@ -84,6 +84,7 @@ export class FilterComponent implements OnInit {
     if(this.showAttributeSelect) {
       console.log(filterOption.queryLabel[0]);
       console.log(this.attrFilterSelected);
+      this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected);
       
      
     }
@@ -117,7 +118,7 @@ export class FilterComponent implements OnInit {
       return;
     }
     const filterOption = this.getOption();
-    console.log(filterOption.name);
+    console.log('resetfilter ',filterOption.name);
     this.applesFilterSelected = null;
     
     // this.filter();
