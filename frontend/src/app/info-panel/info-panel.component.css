@@ -4,16 +4,25 @@ body {
 }
 
 img {
-    -moz-transform: rotate(90deg);
+    /* -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg); 
-    -webkit-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg); */
+    position: absolute;
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
 }
 
-div.gallery img {
-    width: 125%;
-    height: auto;
+.gallery {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    padding: 0px 3px;
 }
 
 div.desc {
@@ -38,9 +47,10 @@ div.desc {
 }
 
 .responsive {
-    padding: 25px 2px;
+    padding: 10px 0px;
     float: left;
     width: 48%;
+    overflow: hidden;
 }
 
 .clearfix:after {
