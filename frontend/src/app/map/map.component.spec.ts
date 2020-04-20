@@ -6,10 +6,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Apple } from '../apple';
 ;
 
-
-
-
-
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
@@ -23,7 +19,6 @@ describe('MapComponent', () => {
       "use": "dessert, cider",
       "country": "United States",
       "genotypes": 3136,
-      // "tree_tag_id": 100,
       "propertyOwner": "public",
       "treeSiteLocation": "Dunn House",
       "treeLatitude": 39.9391806,
@@ -34,10 +29,6 @@ describe('MapComponent', () => {
       "fireBlight": 0,
       "fruitHanging": "1001-10000"
     }];
-
-
-
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

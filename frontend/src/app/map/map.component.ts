@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Apple } from '../apple';
 import { InfoPanelService } from '../services/info-panel.service';
-import { AppleService } from '../services/apple.service';
+import { AppleService, AppleResponse } from '../services/apple.service';
 
 import { appleMarker } from '../apple-marker';
 
@@ -41,22 +41,18 @@ export class MapComponent implements OnInit {
   });
 
   private map: L.map;
-  apples: Apple[] = [];
+  apples: AppleResponse;
   markers: L.marker[];
-  clusters: L.markercluster;
+  clusters: L.markerClusterGroup;
+  
+  
+  appleObserver = {
+    next: x => this.UpdateApples(x),
+    error: err => console.log('Observer got an error: ' + err),
+    complete: () => console.log('Observer.got a complete notification'),
+  };
 
   constructor(public infoPanelService: InfoPanelService, public appleService: AppleService) { 
-  }
-
-  getMap() {
-    return this.map;
-  }
-
-  getRandomAdjustment(): number {
-    return Math.random() * (0.001 - 0.0005) + 0.0005;
-  }
-  
-  createAppleMarkers(this): L.markerClusterGroup {
     var treeIcon = L.icon({
       iconUrl: '../assets/icons8-color-48.png',
 
@@ -64,7 +60,8 @@ export class MapComponent implements OnInit {
     });
 
     L.DomUtil.TRANSITION = true;
-    var clusterMarkers = L.markerClusterGroup({
+
+    this.clusters = new L.markerClusterGroup({
       maxClusterRadius: 20,
       // zoomToBoundsOnClick: false,
       spiderfyOnMaxZoom: false,
@@ -75,44 +72,57 @@ export class MapComponent implements OnInit {
       }
     });
 
-    this.appleService.getApples()
-      .subscribe(apples => {
-        console.log(apples);
-        apples['body'].forEach(function(a) {
+    this.apples = {body: []};
+    this.markers = [];
+  }
 
-          var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
-          if(a.treeLatitude != null && a.treeLongitude != null) {
-            am.setApple(a);
-            am.on('click', function() {
-              // console.log(am.getApple().id);
-              this.infoPanelService.add(am.getApple());
-              // this.infoPanelService.grabImages();
-              this.infoPanelService.showPanel();
-              // console.log(this.map.getZoom());
-              var zoom = this.map.getZoom();
-              if(zoom < this.map.getMaxZoom()) {
-                zoom += 1;
-              }
-              this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
-            }, this);
-            this.markers.push(am);
-            // console.log(this.markers);
+  UpdateApples(x){
+    this.apples = x;
+    this.clusters.removeLayers(this.markers)
+    console.log('after remove', this.clusters);
+    this.markers = []
+
+    console.log("observer : ", this.apples);
+    this.apples.body.forEach(function(a) {
+      // console.log("forEach : ", a);
+      var am = new this.AppleMarker([a["treeLatitude"], a["treeLongitude"]], {});
+      if(a.treeLatitude != null && a.treeLongitude != null) {
+        am.setApple(a);
+        am.on('click', function() {
+          // console.log(am.getApple().id);
+          this.infoPanelService.add(am.getApple());
+          this.infoPanelService.showPanel();
+          // console.log(this.map.getZoom());
+          var zoom = this.map.getZoom();
+          if(zoom < this.map.getMaxZoom()) {
+            zoom += 1;
           }
+          this.map.panTo([am.getApple().treeLatitude, am.getApple().treeLongitude], zoom);
         }, this);
+        this.markers.push(am);
+      }
+    }, this);
 
-    
-      clusterMarkers.addLayers(this.markers);
-      // console.log(this.markers);
-      // L.featureGroup(this.markers)
-        // .addTo(this.map);
-    });
+    if(this.markers.length != 0) {
+      this.clusters.addLayers(this.markers);
+      // L.featureGroup(clusterMarkers).addTo(this.map); 
+      this.map.addLayer(this.clusters);
+    } else {
+      console.log('no markers')
+    }
+  }
+  
+  getMap() {
+    return this.map;
+  }
 
-    return clusterMarkers;
+  getRandomAdjustment(): number {
+    return Math.random() * (0.001 - 0.0005) + 0.0005;
   }
   
   private initMap(): void {
     // Setting location to Boulder
-    this.markers = [];
+    this.appleService.markers = [];
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);
@@ -148,10 +158,6 @@ export class MapComponent implements OnInit {
       layers: [Esri_WorldTopoMap]
     }).setView([40.0150, -105.2705], 12.5);
 
-    // Apple Markers
-    this.clusters = this.createAppleMarkers();
-    this.map.addLayer(this.clusters);
-
     var baseLayers = {
       "Topological": Esri_WorldTopoMap,
       "Dark": CartoDB_DarkMatter,
@@ -168,8 +174,10 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appleService.getApples();
     this.initMap();
+
+    this.appleService.getApples();
+    this.appleService.applesSource.subscribe(this.appleObserver);
   }
 
 

@@ -1,37 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Apple } from '../apple';
+import * as L from 'leaflet';
+
+export interface AppleResponse {
+  body: Apple[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppleService {
-  messages = [];
 
-  private thomasURL = "https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1";
-  private localhost3000query = 'http://localhost:3000/beta/query1';
+  BASE_URL = 'http://localhost:3000/';
 
-  public httpGETFiltered;
+  markers: L.marker[];
+  clusters: L.markercluster;
 
-  private apples = new BehaviorSubject(null);
-  sharedApples = this.apples.asObservable();
+
+  private apples: AppleResponse;
+  applesSource = new BehaviorSubject<AppleResponse>({body: []});
+
+
+  // sharedApples = this.apples.asObservable();
     
-  constructor(private http: HttpClient) {}
-
-  getApples(): Observable<any> {
-    // return this.http.get(this.baseurl + '/apples/', {headers: this.httpHeaders});
-    return this.http.get('http://localhost:3000/beta/query1'); // NEEDS TO BE CHANGES TO EC2 DOMAIN ON DEPLOYMENT
+  constructor(private http: HttpClient) {
   }
 
-  getFilteredApples(selectedFilter: String, value: String): Observable<any> {
-    console.log("getting filtered apples");
-    console.log(selectedFilter);
-    console.log(value);
-    console.log('http://localhost:3000/filter/' + selectedFilter + '/value/' + value);
-    this.httpGETFiltered = this.http.get('http://localhost:3000/filter/' + selectedFilter + '/value/' + value)
-    console.log(this.httpGETFiltered);
-    return this.httpGETFiltered;
+  getApples() {
+    this.http.get<AppleResponse>(this.BASE_URL + 'apples')
+    .subscribe(data => {
+      this.apples = data;
+      console.log('get apples service ', this.apples);
+      this.applesSource.next(this.apples);
+    })
+  }
+
+
+  getFilteredApples(selectedFilter: String, value: String) {
+    console.log(this.BASE_URL + selectedFilter + '/' + value)
+    this.http.get<AppleResponse>(this.BASE_URL + selectedFilter + '/' + value)
+    .subscribe(data => {
+      this.apples = data;
+      console.log('get filter apples service ', this.apples);
+      this.applesSource.next(this.apples);
+   
+    })
   }
 }
-
 

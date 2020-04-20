@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AppleService } from '../services/apple.service';
 import { FormControl } from '@angular/forms';
 import { Apple } from '../apple';
+import { InfoPanelService } from '../services/info-panel.service';
 import { resetFakeAsyncZone } from '@angular/core/testing';
+import { AppleService, AppleResponse } from '../services/apple.service';
+
+
 
 interface Option {
   name: string;
@@ -17,9 +20,7 @@ interface Option {
 })
 export class FilterComponent implements OnInit {
 
-  constructor(public appleService: AppleService) { }
 
-  apples: Apple[] = [];
   applesFilterSelected: String;
   attrFilterSelected: String;
   operatorSelected: String;
@@ -28,6 +29,10 @@ export class FilterComponent implements OnInit {
   showEqualTo: boolean = false;
   showGreaterLessThanSelect: boolean = false;
 
+
+  constructor(public appleService: AppleService, public infoPanelService: InfoPanelService) { }
+
+  
   number = new FormControl('');
 
   /* Controls showing number input or select */
@@ -73,27 +78,31 @@ export class FilterComponent implements OnInit {
       return;
     }
 
+  
     const filterOption = this.getOption();
 
     if(this.showAttributeSelect) {
+      console.log(filterOption.queryLabel[0]);
       console.log(this.attrFilterSelected);
-      this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected)
-        .subscribe(apples => {});
+      this.appleService.getFilteredApples(filterOption.queryLabel[0], this.attrFilterSelected);
     }
     else if(this.showNumberInput && this.number.value !== null){
       // Do the filter - successful
       if(filterOption.name == 'Tree Tag ID') {
         // Don't need a Min/Max suffix
-        this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
-          .subscribe(apples => {});
+        // this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+        //   .subscribe(apples => {});
+        
       } else {
         // Need a suffix
         if(this.operatorSelected == '>') {
-          this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
-          .subscribe(apples => {});
+          // this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value)
+          // .subscribe(apples => {});
+          
         } else {
-          this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
-          .subscribe(apples => {});
+          // this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value)
+          // .subscribe(apples => {});
+       
         }
       }
     }
@@ -105,14 +114,16 @@ export class FilterComponent implements OnInit {
       return;
     }
     const filterOption = this.getOption();
-    console.log(filterOption.name);
+    console.log('resetfilter ',filterOption.name);
     this.applesFilterSelected = null;
     
     // this.filter();
 
-    this.appleService.getApples();
+    // this.appleService.getApples();
   }
 
+  
+         
   // TODO: Add Final Cultivar
   optionsList: Array<Option> = [
     { name: 'Tree Tag ID', attributes: ['Number Input'], queryLabel: ['TreeTagId'] },
@@ -124,6 +135,8 @@ export class FilterComponent implements OnInit {
   ];
 
   ngOnInit() {
+    // this.appleService.getApples();
+    // this.appleService.applesSource.subscribe(this.appleObserver);
   }
-
+  
 }
