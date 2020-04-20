@@ -20,6 +20,26 @@ describe('InfoPanelService', () => {
     httpClient = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
 
+    apple = {  "tree_tag_id": 100,
+      "genetics": "Malus",
+      "species": "domestica",
+      "finalCultivar": "Ben Davis",
+      "synonym": "New York Pippin, Kentucky Red",
+      "isConfirmed": "C",
+      "use": "dessert, cider",
+      "country": "United States",
+      "genotypes": 3136,
+      "propertyOwner": "public",
+      "treeSiteLocation": "Dunn House",
+      "treeLatitude": 39.9391806,
+      "treeLongitude": -105.2603118,
+      "treeHeight": 20,
+      "treeDripLine": 14,
+      "trunkDiameter": 20.25,
+      "fireBlight": 0,
+      "fruitHanging": "1001-10000"
+    };
+
   });
  
   it('should be created', () => {
