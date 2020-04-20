@@ -3,24 +3,28 @@ body {
     margin: 10em;
 }
 
-img {
+.gallery img {
     /* -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg); 
     -webkit-transform: rotate(90deg); */
-    position: absolute;
-    max-width: 100%;
-    width: auto;
-    height: 100%;
+    /* width: 100%;
     overflow: hidden;
-    object-fit: cover;
+    display: block; */
+
+    max-height: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: hidden;
+    opacity: 100%;
 }
 
 .gallery {
     position: relative;
     width: 150px;
-    height: 150px;
+    /* height: 150px; */
     overflow: hidden;
     padding: 0px 3px;
 }
@@ -47,10 +51,14 @@ div.desc {
 }
 
 .responsive {
-    padding: 10px 0px;
+    padding: 5px 0px;
     float: left;
     width: 48%;
     overflow: hidden;
+}
+
+.clearfix {
+    background-color: rgba(128, 128, 128, 0.171);
 }
 
 .clearfix:after {
