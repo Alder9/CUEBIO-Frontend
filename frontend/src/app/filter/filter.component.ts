@@ -141,6 +141,7 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
     // this.appleService.getApples();
     // this.appleService.applesSource.subscribe(this.appleObserver);
+    // this.filter();
   }
   
 }
