@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Apple } from '../apple';
-import * as L from 'leaflet';
 
 export interface AppleResponse {
   body: Apple[];
@@ -14,9 +13,6 @@ export interface AppleResponse {
 export class AppleService {
 
   BASE_URL = 'http://localhost:3000/';
-
-  markers: L.marker[];
-  clusters: L.markercluster;
 
 
   private apples: AppleResponse;

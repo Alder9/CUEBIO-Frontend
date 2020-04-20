@@ -5,7 +5,6 @@ import { Apple } from '../apple';
 import { InfoPanelService } from '../services/info-panel.service';
 import { AppleService, AppleResponse } from '../services/apple.service';
 
-import { appleMarker } from '../apple-marker';
 
 @Component({
   selector: 'app-map',
@@ -122,7 +121,7 @@ export class MapComponent implements OnInit {
   
   private initMap(): void {
     // Setting location to Boulder
-    this.appleService.markers = [];
+    this.markers = [];
     var p1 = L.latLng(40.149152, -105.378020),
     p2 = L.latLng(39.957245, -105.170137),
     bounds = L.latLngBounds(p1, p2);
