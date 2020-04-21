@@ -98,9 +98,9 @@ export class FilterComponent implements OnInit {
           
         } else {
 
-          console.log("1 filter select : ", filterOption.queryLabel[0]);
+          console.log("1 filter select : ", filterOption.queryLabel[1]);
           console.log("filter select value : ", this.number.value);
-          this.appleService.getFilteredApples(filterOption.queryLabel[0], this.number.value);
+          this.appleService.getFilteredApples(filterOption.queryLabel[1], this.number.value);
        
         }
       }
