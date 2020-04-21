@@ -122,13 +122,13 @@ export class MapComponent implements OnInit {
   private initMap(): void {
     // Setting location to Boulder
     this.markers = [];
-    var p1 = L.latLng(40.149152, -105.378020),
-    p2 = L.latLng(39.957245, -105.170137),
+    var p1 = L.latLng(40.279176, -105.742777),
+    p2 = L.latLng(39.897780, -105.032154),
     bounds = L.latLngBounds(p1, p2);
 
     // Historic map layer
     var mapurl = '../assets/Copy of 1937 Aerial Photo_Earth Sciences.png',
-        imageBounds = [[40.052709, -105.309205], [39.973121, -105.245030]];
+        imageBounds = [[40.258029, -105.705313], [39.973121, -105.245030]];
 
     var historic_map = L.imageOverlay(mapurl, imageBounds, { opacity: 0.7 });
 
@@ -153,7 +153,8 @@ export class MapComponent implements OnInit {
     });
 
     this.map = L.map('map', {
-      // maxBounds: bounds
+      // maxBounds: bounds, // UNCOMMENT THESE FOR MUSEUM VERSION
+      // minZoom: 12.5,
       layers: [Esri_WorldTopoMap]
     }).setView([40.0150, -105.2705], 12.5);
 
