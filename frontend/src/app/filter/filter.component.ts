@@ -132,7 +132,12 @@ export class FilterComponent implements OnInit {
     { name: 'Tree Height', attributes: ['Number Input'], queryLabel: ['TreeHeightMin', 'TreeHeightMax'] },
     { name: 'Trip Dripline', attributes: ['Number Input'], queryLabel: ['DriplineMin', 'DriplineMax'] },
     { name: 'Fruit Hanging Diameter', attributes: ['Number Input'], queryLabel: ['FruitDiameterMin', 'FruitDiameterMax'] },
-    { name: 'Final Cultivar', attributes: ['Cider', 'King David','Jonathan'], queryLabel: ['FinalCultivar'] },
+    { name: 'Final Cultivar', attributes: ['Ben Davis','Fameuse','McMahan','Delicious','Salome','McIntosh Summerland Reed',
+                     'Wealthy','Irene','Haralson','Lodi','Dolgo','Whitney Crab','Gimes Golden','Winesap','Fameuse','Duchess/Borowitsky',
+                     'Korei','Glenorchie','Red Baron','Jonathan','Arkansas Black','Early Strawberry','Mann','Dorsett Golden',
+                     'Crimson Beauty','Empire','Hopa','Northern Spy','Huan Guan','King David','Imperial Stayman','Red Dijmanszoet',
+                     'Secor','Haas','Cortland','Rome Beauty Law','Northwest Greening','Yellow Transparent','Tchistaikovka','Earliblaze',
+                     'Pepin Litovskit'], queryLabel: ['FinalCultivar'] },
   ];
 
   ngOnInit() {
