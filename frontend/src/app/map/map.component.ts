@@ -166,7 +166,7 @@ export class MapComponent implements OnInit {
     }
 
     var overlayMaps = {
-      "1920s Historic Map of Boulder": historic_map 
+      "1937 Historic Map of Boulder": historic_map 
     };
 
     L.control.layers(baseLayers, overlayMaps).addTo(this.map);
