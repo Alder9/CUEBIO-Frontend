@@ -153,8 +153,8 @@ export class MapComponent implements OnInit {
     });
 
     this.map = L.map('map', {
-      // maxBounds: bounds, // UNCOMMENT THESE FOR MUSEUM VERSION
-      // minZoom: 12.5,
+      maxBounds: bounds, // UNCOMMENT THESE FOR MUSEUM VERSION
+      minZoom: 12.5,
       layers: [Esri_WorldTopoMap]
     }).setView([40.0150, -105.2705], 12.5);
 
