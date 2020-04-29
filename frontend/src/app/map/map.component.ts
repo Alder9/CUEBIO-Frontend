@@ -128,7 +128,7 @@ export class MapComponent implements OnInit {
 
     // Historic map layer
     var mapurl = '../assets/Copy of 1937 Aerial Photo_Earth Sciences.png',
-        imageBounds = [[40.258029, -105.705313], [39.973121, -105.245030]];
+        imageBounds = [[40.052709, -105.309205], [39.973121, -105.245030]];
 
     var historic_map = L.imageOverlay(mapurl, imageBounds, { opacity: 0.7 });
 
@@ -166,7 +166,7 @@ export class MapComponent implements OnInit {
     }
 
     var overlayMaps = {
-      "1920s Historic Map of Boulder": historic_map 
+      "1937 Historic Map of Boulder": historic_map 
     };
 
     L.control.layers(baseLayers, overlayMaps).addTo(this.map);
