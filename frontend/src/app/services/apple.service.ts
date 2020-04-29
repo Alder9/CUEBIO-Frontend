@@ -12,7 +12,7 @@ export interface AppleResponse {
 })
 export class AppleService {
 
-  BASE_URL = 'http://localhost:3000/';
+  BASE_URL = 'http://ec2-18-188-46-232.us-east-2.compute.amazonaws.com:3000/';
 
 
   private apples: AppleResponse;
