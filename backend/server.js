@@ -78,7 +78,7 @@ app.get('/:filter/:value', (req, res) => {
 
 app.get('/apples', (req, res) => {
   request(
-    { url: 'https://kl4auc0304.execute-api.us-east-2.amazonaws.com/beta/query1'},
+    { url: 'https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1'},
 
     (error, response, body) => {
       if (error || response.statusCode !== 200) {
