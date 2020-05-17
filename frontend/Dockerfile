@@ -12,12 +12,17 @@ RUN ng build --output-path=dist
 
 FROM nginx:1.16.0-alpine
 
+RUN mkdir -p /run/nginx
+
 RUN rm -rf /usr/share/nginx/html*
 
-COPY ./dev/nginx.conf /etc/nginx/nginx.conf
+# COPY ./certs /etc/nginx/certs
+
+# COPY ./dev/nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
 EXPOSE 49153 
 
-CMD ["nginx", "-g", "daemon off;"]
+# CMD /bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
+

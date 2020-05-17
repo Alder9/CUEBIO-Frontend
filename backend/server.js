@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/images/:appleid/', (req, res) => {
+app.get('/api/images/:appleid/', (req, res) => {
   console.log('tree_' + req.params.appleid + '/');
 
   image_paths = []
@@ -59,7 +59,7 @@ app.get('/images/:appleid/', (req, res) => {
   
 });
 
-app.get('/:filter/:value', (req, res) => {
+app.get('/api/:filter/:value', (req, res) => {
   const filterString = req.params.filter;
   const valueString = req.params.value;
   request(
@@ -76,9 +76,9 @@ app.get('/:filter/:value', (req, res) => {
   )
 });
 
-app.get('/apples', (req, res) => {
+app.get('/api/apples', (req, res) => {
   request(
-    { url: 'https://kl4auc0304.execute-api.us-east-2.amazonaws.com/beta/query1'},
+    { url: 'https://vndmcwy7p1.execute-api.us-east-2.amazonaws.com/beta/query1'},
 
     (error, response, body) => {
       if (error || response.statusCode !== 200) {

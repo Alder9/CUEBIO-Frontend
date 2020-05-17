@@ -5,11 +5,16 @@ services:
     build: './frontend'
     volumes:
       - /usr/src/app/node_modules
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
       - "80:80"
       - "49153:49153"
+      - "443:443"
     links:
-      - "apple-middleware:backend"   
+      - "apple-middleware:backend"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"   
   apple-middleware:
     container_name: apple-middleware
     build: './backend'
@@ -17,4 +22,10 @@ services:
       - /usr/app/server/node_modules
     ports:
       - "3000:3000"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 

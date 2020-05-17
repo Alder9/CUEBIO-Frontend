@@ -51,3 +51,6 @@ DjangoApi/venv/
 DjangoApi/env/
 
 .editorconfig
+
+# Certficate stuff
+/data/certbot

@@ -34,7 +34,7 @@ export class InfoPanelService {
   grabImages() {
     console.log("Grabbing images for " + this.apple.tree_tag_id);
 
-    this.http.get<string[]>('http://ec2-18-188-46-232.us-east-2.compute.amazonaws.com:3000/images/' + this.apple.tree_tag_id)
+    this.http.get<string[]>('https://map.appletreeproject.org/api/images/' + this.apple.tree_tag_id)
       .subscribe(data => {
         this.images = data;
         this.imagesSource.next(this.images);
