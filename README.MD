@@ -64,9 +64,19 @@ ng serve
 Note when using Docker the Angular project builds which could take a little.
 In order to deploy run the following commands on an Ubuntu machine with `docker.io` and `docker-compose` installed with `apt-get install`.
 
+Switch into the `deploy` branch.
+
+If the containers are running run `sudo docker-compose stop`.
+
+For first time, certificates must be created but first ensure that in `data/nginx/app.conf`, all services, `init-letsencrypt.sh` are all referencing the URL of the specific subdomain (map.appletreeproject.org or museum-map.appletreeproject.org). These subdomains must have an A record pointing to the server IP set up in squarespace. Run:
+```
+sudo chmod 777 init-letsencrypt.sh
+sudo ./init-letsencrypt.sh
+```
+This will create the certificates we need for HTTPS. Sometimes if the certificates failed to be delivered, you must run `sudo docker-compose build` before and try again.
+
 In the directory the GitHub project is cloned into:
 ```
-sudo docker-compose build --no-cache
 sudo docker-compose up -d 
 ```
 
